@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "2AEE31B4-4F80-4BD1-BDD1-AE667714FC8C"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DA3301B6-E2CE-4E77-90AB-81BA9663BF21"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Flashback/DataManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "addPost(text:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DA3301B6-E2CE-4E77-90AB-81BA9663BF21 - f7cf1f7084d398f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Flashback.DataManager.addPost(text: Swift.String) -&gt; ()"
+                  moduleName = "Flashback"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/waffles/Desktop/Xcode/Flashback/Flashback/DataManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "336">
+               </Location>
+               <Location
+                  uuid = "DA3301B6-E2CE-4E77-90AB-81BA9663BF21 - 5a23a5993e856f96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Flashback.DataManager.addPost(text: Swift.String) -&gt; ()"
+                  moduleName = "Flashback"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/waffles/Desktop/Xcode/Flashback/Flashback/DataManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "07875496-5D62-4223-9CC7-3C27B0DB7455"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Flashback/DataManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "addPost(text:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
