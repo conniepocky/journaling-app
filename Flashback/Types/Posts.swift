@@ -12,4 +12,5 @@ struct Posts: Identifiable {
     var prompt: String
     var text: String
     var author: String
+    var author_id: String
 }

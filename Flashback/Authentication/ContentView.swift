@@ -14,6 +14,9 @@ struct ContentView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var loggedIn = false
+    @State private var registation = false
+    
+    private var db = Firestore.firestore()
     
     var body: some View {
         
@@ -82,6 +85,16 @@ struct ContentView: View {
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
+                    if registation {
+                        let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
+                        ref.setData(["displayname": username,
+                                     "friends": [String]()]) { error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                    registation = false
                     loggedIn.toggle()
                 }
             }
@@ -102,7 +115,7 @@ struct ContentView: View {
                 print(error!.localizedDescription)
             }
         }
-        
+
         if username.isValidName {
             print("valid")
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
@@ -115,6 +128,8 @@ struct ContentView: View {
         } else {
             //not valid username
         }
+        
+        registation = true
         
     }
 }

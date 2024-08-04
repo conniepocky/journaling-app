@@ -31,6 +31,9 @@ struct HomeView: View {
                 Image(systemName: "clock.fill")
                 Text("History")
             }
+            FriendsView().tabItem() {
+                Text("Friends")
+            }
             ProfileView().tabItem() {
                 Image(systemName: "person.circle")
                 Text("Profile")

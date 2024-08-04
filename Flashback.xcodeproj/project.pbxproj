@@ -28,6 +28,9 @@
 		BCA860862A813FD900515B09 /* Posts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860852A813FD900515B09 /* Posts.swift */; };
 		BCA860882A81401900515B09 /* Prompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860872A81401900515B09 /* Prompts.swift */; };
 		BCA8608E2A84D75F00515B09 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA8608D2A84D75F00515B09 /* CreatePostView.swift */; };
+		BCD1ACB42C5EA800006054FC /* ChangeUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1ACB32C5EA800006054FC /* ChangeUserView.swift */; };
+		BCD1ACB62C5F9CE6006054FC /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1ACB52C5F9CE6006054FC /* FriendsView.swift */; };
+		BCD1ACB82C5FBAE3006054FC /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1ACB72C5FBAE3006054FC /* Users.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		BCA860852A813FD900515B09 /* Posts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Posts.swift; sourceTree = "<group>"; };
 		BCA860872A81401900515B09 /* Prompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompts.swift; sourceTree = "<group>"; };
 		BCA8608D2A84D75F00515B09 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		BCD1ACB32C5EA800006054FC /* ChangeUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserView.swift; sourceTree = "<group>"; };
+		BCD1ACB52C5F9CE6006054FC /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		BCD1ACB72C5FBAE3006054FC /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 		BCA8607A2A81242200515B09 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				BCD1ACB02C5EA0D0006054FC /* ChangeViews */,
 				BC0C6B472A6FDC500029782B /* ContentView.swift */,
 				BCA860722A7A7EF900515B09 /* SettingsView.swift */,
 				BCA8608D2A84D75F00515B09 /* CreatePostView.swift */,
@@ -128,6 +135,7 @@
 		BCA8607C2A81247200515B09 /* TabViews */ = {
 			isa = PBXGroup;
 			children = (
+				BCD1ACB52C5F9CE6006054FC /* FriendsView.swift */,
 				BCA860762A7E952600515B09 /* MainView.swift */,
 				BCA860782A8123F700515B09 /* HistoryView.swift */,
 				BC0C6B642A795D080029782B /* ProfileView.swift */,
@@ -140,8 +148,17 @@
 			children = (
 				BCA860852A813FD900515B09 /* Posts.swift */,
 				BCA860872A81401900515B09 /* Prompts.swift */,
+				BCD1ACB72C5FBAE3006054FC /* Users.swift */,
 			);
 			path = Types;
+			sourceTree = "<group>";
+		};
+		BCD1ACB02C5EA0D0006054FC /* ChangeViews */ = {
+			isa = PBXGroup;
+			children = (
+				BCD1ACB32C5EA800006054FC /* ChangeUserView.swift */,
+			);
+			path = ChangeViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,18 +244,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCD1ACB62C5F9CE6006054FC /* FriendsView.swift in Sources */,
 				BC0C6B542A6FDFFA0029782B /* HomeView.swift in Sources */,
 				BCA860792A8123F700515B09 /* HistoryView.swift in Sources */,
 				BCA8608E2A84D75F00515B09 /* CreatePostView.swift in Sources */,
 				BCA860772A7E952600515B09 /* MainView.swift in Sources */,
 				BC0C6B482A6FDC500029782B /* ContentView.swift in Sources */,
 				BC0C6B652A795D080029782B /* ProfileView.swift in Sources */,
+				BCD1ACB82C5FBAE3006054FC /* Users.swift in Sources */,
 				BCA860732A7A7EF900515B09 /* SettingsView.swift in Sources */,
 				BCA860882A81401900515B09 /* Prompts.swift in Sources */,
 				BC0C6B632A77EFAA0029782B /* String.swift in Sources */,
 				BCA860862A813FD900515B09 /* Posts.swift in Sources */,
 				BCA860832A813F1B00515B09 /* DataManager.swift in Sources */,
 				BC0C6B462A6FDC500029782B /* FlashbackApp.swift in Sources */,
+				BCD1ACB42C5EA800006054FC /* ChangeUserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

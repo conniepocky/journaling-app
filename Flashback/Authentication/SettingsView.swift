@@ -23,24 +23,7 @@ struct SettingsView: View {
             List {
                 Section {
                     NavigationLink {
-                        
-                        TextField("New  Username", text: $newDisplayName)
-                            .padding(6.0)
-                            .background(RoundedRectangle(cornerRadius: 4.0, style: .continuous)
-                                .stroke(.gray, lineWidth: 1.0))
-                            .padding()
-                            .textContentType(.username)
-                            .autocapitalization(.none)
-                        
-                        Button {
-                            updateDisplayName(name: newDisplayName)
-                        } label: {
-                            Text("Save")
-                                .frame(width: 200, height: 40)
-                                .foregroundColor(.white)
-                                .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-                        }
-                        
+                        ChangeUserView()
                         
                     } label: {
                         Text("Display name: \(currentUser?.displayName ?? "")")

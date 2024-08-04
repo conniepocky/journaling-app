@@ -15,11 +15,14 @@ class DataManager: ObservableObject {
     
     @Published var posts: [Posts] = []
     
+    @Published var users = [Users]()
+    
     private var db = Firestore.firestore()
     
     init() {
         fetchPrompts()
         fetchPosts()
+        fetchUsers()
     }
     
     func fetchPrompts() {
@@ -45,6 +48,24 @@ class DataManager: ObservableObject {
                     
     }
     
+    func fetchUsers() {
+        db.collection("users").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            self.users = documents.map { (queryDocumentSnapshot) -> Users in
+                let data = queryDocumentSnapshot.data()
+                let name = data["displayname"] as? String ?? ""
+                let id = data["id"] as? String ?? ""
+                let friends = data["friends"] as? [String] ?? [""]
+                
+                return Users(id: id, displayname: name, friends: friends)
+            }
+        }
+    }
+    
     func fetchPosts() {
         
         db.collection("posts").addSnapshotListener { (querySnapshot, error) in
@@ -60,15 +81,16 @@ class DataManager: ObservableObject {
                 let id = data["id"] as? String ?? "0"
                 let author = data["author"] as? String ?? ""
                 let prompt = data["prompt"] as? String ?? ""
+                let author_id = data["author_id"] as? String ?? ""
 
-                return Posts(id: id, prompt: prompt, text: text, author: author)
+                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id)
             }
         }
     }
     
     func addPost(text: String) {
         let ref = db.collection("posts").document()
-        ref.setData(["author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName]) { error in
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "displayName": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }
