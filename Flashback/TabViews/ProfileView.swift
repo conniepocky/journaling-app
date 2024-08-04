@@ -11,7 +11,7 @@ import Introspect
 
 struct ProfileView: View {
     
-    var currentUser = Auth.auth().currentUser!
+    @State private var currentUser = Auth.auth().currentUser
     
     var body: some View {
         NavigationView {
@@ -37,7 +37,7 @@ struct ProfileView: View {
                 .padding()
                 
                 VStack(alignment: .leading) {
-                    Text(currentUser.displayName ?? "")
+                    Text(currentUser?.displayName ?? "")
                         .font(.title)
                         .padding()
                 }

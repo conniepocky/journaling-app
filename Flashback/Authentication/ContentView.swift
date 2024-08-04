@@ -94,6 +94,20 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    if username.isValidName {
+                        print("valid")
+                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                        changeRequest?.displayName = username
+                        changeRequest?.commitChanges { error in
+                            print(error?.localizedDescription as Any)
+                        }
+                        
+                        
+                    } else {
+                        //not valid username
+                    }
+                    
                     registation = false
                     loggedIn.toggle()
                 }
@@ -114,19 +128,6 @@ struct ContentView: View {
             if error != nil {
                 print(error!.localizedDescription)
             }
-        }
-
-        if username.isValidName {
-            print("valid")
-            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            changeRequest?.displayName = username
-            changeRequest?.commitChanges { error in
-                print(error!.localizedDescription)
-            }
-            
-            
-        } else {
-            //not valid username
         }
         
         registation = true

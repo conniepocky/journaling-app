@@ -14,13 +14,10 @@ struct FriendsView: View {
     var body: some View {
         NavigationView {
             List(viewModel.users) { user in
-                VStack(alignment: .leading) {
-                    Text(user.displayname).font(.title)
-                }
+                Text(user.displayname)
             }.navigationBarTitle("Discover")
-            .onAppear() {
-                self.viewModel.fetchUsers()
-            }
+        }.onAppear() {
+            self.viewModel.fetchUsers()
         }
     }
 }
