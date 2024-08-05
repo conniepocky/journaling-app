@@ -89,6 +89,7 @@ struct ContentView: View {
                         let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
                         ref.setData(["displayname": username,
                                      "friends": [String](),
+                                     "requests": [String](),
                                      "id": Auth.auth().currentUser?.uid ?? "0"]) { error in
                             if let error = error {
                                 print(error.localizedDescription)

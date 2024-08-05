@@ -17,6 +17,10 @@ class DataManager: ObservableObject {
     
     @Published var users = [Users]()
     
+    public var requests = [String]()
+    
+    @State private var currentUser = Auth.auth().currentUser
+    
     private var db = Firestore.firestore()
     
     init() {
@@ -64,6 +68,25 @@ class DataManager: ObservableObject {
                 return Users(id: id, displayname: name, friends: friends)
             }
         }
+    }
+    
+    func fetchCurrentUser() {
+        let docRef = db.collection("users").document(currentUser?.uid ?? "0")
+        
+        docRef.getDocument { (document, error) in
+             if let document = document, document.exists {
+                 let docData = document.data()
+                 // Do something with doc data
+                 
+                 print(docData?["requests"] as? [String])
+                 
+                 self.requests = (docData?["requests"] as? [String])!
+              } else {
+                 print("Document does not exist")
+
+              }
+        }
+
     }
     
     func fetchPosts() {
