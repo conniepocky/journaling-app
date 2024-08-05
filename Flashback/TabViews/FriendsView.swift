@@ -14,8 +14,9 @@ struct FriendsView: View {
     var body: some View {
         NavigationView {
             List(viewModel.users) { user in
+                let _ = print(user)
                 Text(user.displayname)
-            }.navigationBarTitle("Discover")
+            }.navigationBarTitle("Friends")
         }.onAppear() {
             self.viewModel.fetchUsers()
         }
