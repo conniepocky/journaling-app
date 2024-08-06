@@ -40,7 +40,11 @@ struct FriendsView: View {
                             
                         } label: {
                             if !names.isEmpty {
-                                Text(names[0])
+                                Button {
+                                    acceptRequest(id: request)
+                                } label: {
+                                    Text(names[0])
+                                }
                             }
                         }
                     }
@@ -81,6 +85,22 @@ struct FriendsView: View {
                 "requests": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
             ])
         }
+    }
+    
+    func acceptRequest(id: String) {
+        let ref = db.collection("users").document(id)
+        
+        ref.updateData([
+            "requests": FieldValue.arrayRemove([id]),
+            "friends": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
+        ])
+        
+        let userRef = db.collection("users").document(currentUser?.uid ?? "0")
+        
+        userRef.updateData([
+            "requests": FieldValue.arrayRemove([id]),
+            "friends": FieldValue.arrayUnion([id])
+        ])
     }
     
     
