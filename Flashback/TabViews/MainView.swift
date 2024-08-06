@@ -14,6 +14,8 @@ struct MainView: View {
     @EnvironmentObject var dataManager: DataManager
     var currentUser = Auth.auth().currentUser!
     
+    @State var friendsPosts = [Posts]()
+    
     var body: some View {
         NavigationStack {
             ScrollView(.vertical) {
@@ -40,28 +42,31 @@ struct MainView: View {
                 Divider()
                 
                 VStack(alignment: .leading) {
-                    ForEach(dataManager.posts) { post in
-                        if post.prompt == dataManager.prompts[0].docName {
-                            Text(post.author)
-                                .font(.title2)
-                                .foregroundColor(.accentColor)
-                               
-                            Text(post.text)
-                                
-                            Divider()
-                        }
+                    ForEach(friendsPosts) { post in
+                        Text(post.author)
+                            .font(.title2)
+                            .foregroundColor(.accentColor)
+                           
+                        Text(post.text)
+                            
+                        Divider()
                     }
                 }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                 
             }.introspect(.scrollView, on: .iOS(.v13, .v14, .v15, .v16, .v17)) { scrollView in
                 scrollView.bounces = false
             }
+        }.onAppear {
+            dataManager.fetchFriends()
+            print(dataManager.friends)
+            
+            for post in dataManager.posts {
+                if post.prompt == dataManager.prompts[0].docName && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
+                    if !self.friendsPosts.contains(where: {$0.author_id == post.author_id}) {
+                        self.friendsPosts.append(post)
+                    }
+                }
+            }
         }
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
     }
 }

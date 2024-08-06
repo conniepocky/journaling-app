@@ -17,8 +17,6 @@ struct FriendsView: View {
     
     @State var names = [String]()
     
-    
-    
     var body: some View {
         NavigationView {
             List {
@@ -31,6 +29,12 @@ struct FriendsView: View {
                         } label: {
                             Text(user.displayname)
                         }
+                    }
+                }
+                
+                Section("Friends") {
+                    ForEach(viewModel.friends, id: \.self) { friend in
+                        Text(friend)
                     }
                 }
                 
@@ -56,6 +60,7 @@ struct FriendsView: View {
         }.onAppear() {
             self.viewModel.fetchUsers()
             self.viewModel.fetchCurrentUser()
+            self.viewModel.fetchFriends()
             
             for request in viewModel.requests {
                 let docRef = db.collection("users").document(request)

@@ -17,6 +17,8 @@ class DataManager: ObservableObject {
     
     @Published var users = [Users]()
     
+    public var friends = [String]()
+    
     public var requests = [String]()
     
     @State private var currentUser = Auth.auth().currentUser
@@ -27,6 +29,25 @@ class DataManager: ObservableObject {
         fetchPrompts()
         fetchPosts()
         fetchUsers()
+        fetchFriends()
+    }
+    
+    func fetchFriends() {
+        let docRef = db.collection("users").document(currentUser?.uid ?? "0")
+        
+        docRef.getDocument { (document, error) in
+             if let document = document, document.exists {
+                 let docData = document.data()
+                 // Do something with doc data
+                 
+                 print(docData?["friends"] as? [String])
+                 
+                 self.friends = (docData?["friends"] as? [String])!
+              } else {
+                 print("Document does not exist")
+
+              }
+        }
     }
     
     func fetchPrompts() {
@@ -78,7 +99,7 @@ class DataManager: ObservableObject {
                  let docData = document.data()
                  // Do something with doc data
                  
-                 print(docData?["requests"] as? [String])
+                 //print(docData?["requests"] as? [String])
                  
                  self.requests = (docData?["requests"] as? [String])!
               } else {
@@ -113,7 +134,7 @@ class DataManager: ObservableObject {
     
     func addPost(text: String) {
         let ref = db.collection("posts").document()
-        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "displayName": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName]) { error in
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }
