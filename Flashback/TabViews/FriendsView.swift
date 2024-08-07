@@ -17,18 +17,25 @@ struct FriendsView: View {
     
     @State var names = [String]()
     
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationView {
             List {
                 Section("Users") {
-                    ForEach(viewModel.users) { user in
-                        Button {
-                            print("add friend")
-                            print(viewModel.requests)
-                            addFriend(id: user.id)
-                        } label: {
-                            Text(user.displayname)
-                        }
+                    NavigationLink {
+                        ForEach(searchResults) { user in
+                            Button {
+                                print("add friend")
+                                print(viewModel.requests)
+                                addFriend(id: user.id)
+                            } label: {
+                                Label(user.displayname, systemImage: "heart")
+                            }
+                        }.searchable(text: $searchText)
+                            .autocapitalization(.none)
+                    } label: {
+                        Text("Search")
                     }
                 }
                 
@@ -82,6 +89,15 @@ struct FriendsView: View {
         }
     }
     
+    
+    var searchResults: [Users] {
+            if searchText.isEmpty {
+                return viewModel.users
+            } else {
+                return viewModel.users.filter { $0.displayname.contains(searchText) }
+            }
+        }
+    
     func addFriend(id: String) {
         let ref = db.collection("users").document(id)
         
@@ -107,7 +123,6 @@ struct FriendsView: View {
             "friends": FieldValue.arrayUnion([id])
         ])
     }
-    
     
 }
 
