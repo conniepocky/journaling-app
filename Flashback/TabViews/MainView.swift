@@ -30,7 +30,6 @@ struct MainView: View {
 
                 }.padding()
                 
-                
                 NavigationLink(destination: CreatePostView()) {
                     Text("Add a reply")
                         .frame(width: 200, height: 40)
@@ -43,9 +42,15 @@ struct MainView: View {
                 
                 VStack(alignment: .leading) {
                     ForEach(friendsPosts) { post in
-                        Text(post.author)
-                            .font(.title2)
-                            .foregroundColor(.accentColor)
+                        HStack {
+                            Text(post.author)
+                                .font(.title2)
+                                .foregroundColor(.accentColor)
+                            
+                            Text(post.date_time)
+                                .foregroundColor(.gray)
+    
+                        }
                            
                         Text(post.text)
                             

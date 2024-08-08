@@ -168,15 +168,22 @@ class DataManager: ObservableObject {
                 let author = data["author"] as? String ?? ""
                 let prompt = data["prompt"] as? String ?? ""
                 let author_id = data["author_id"] as? String ?? ""
+                let date_time = data["date_time"] as? String ?? "Unknown date"
 
-                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id)
+                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time)
             }
         }
     }
     
     func addPost(text: String) {
         let ref = db.collection("posts").document()
-        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName]) { error in
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm E, d MMM y"
+        
+        let today = Date.now
+        
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName, "date_time": formatter.string(from: today)]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

@@ -13,4 +13,5 @@ struct Posts: Identifiable {
     var text: String
     var author: String
     var author_id: String
+    var date_time: String
 }
