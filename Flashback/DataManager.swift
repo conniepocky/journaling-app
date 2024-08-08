@@ -21,6 +21,9 @@ class DataManager: ObservableObject {
     
     public var requests = [String]()
     
+    public var requestsNames = [String]()
+    public var friendsNames = [String]()
+    
     @State private var currentUser = Auth.auth().currentUser
     
     private var db = Firestore.firestore()
@@ -43,6 +46,26 @@ class DataManager: ObservableObject {
                  print(docData?["friends"] as? [String])
                  
                  self.friends = (docData?["friends"] as? [String])!
+                 
+                 for friend in self.friends {
+                     let nameRef = self.db.collection("users").document(friend)
+                     
+                     nameRef.getDocument { (document, error) in
+                          if let document = document, document.exists {
+                              let nameData = document.data()
+                              // Do something with doc data
+                              
+                              print(nameData?["displayname"] as? String)
+                              
+                              if !self.friendsNames.contains(nameData?["displayname"] as? String ?? "test") {
+                                  self.friendsNames.append((nameData?["displayname"] as? String)!)
+                              }
+                              
+                           } else {
+                              print("Document does not exist")
+                           }
+                     }
+                 }
               } else {
                  print("Document does not exist")
 
@@ -91,7 +114,7 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchCurrentUser() {
+    func fetchRequests() {
         let docRef = db.collection("users").document(currentUser?.uid ?? "0")
         
         docRef.getDocument { (document, error) in
@@ -102,6 +125,25 @@ class DataManager: ObservableObject {
                  //print(docData?["requests"] as? [String])
                  
                  self.requests = (docData?["requests"] as? [String])!
+                 
+                 for request in self.requests {
+                     let nameRef = self.db.collection("users").document(request)
+                     
+                     nameRef.getDocument { (document, error) in
+                          if let document = document, document.exists {
+                              let nameData = document.data()
+                              // Do something with doc data
+                              
+                              print(nameData?["displayname"] as? String)
+                              
+                              self.requestsNames.append((nameData?["displayname"] as? String)!)
+                              
+                           } else {
+                              print("Document does not exist")
+                           }
+                     }
+                 }
+                 
               } else {
                  print("Document does not exist")
 
