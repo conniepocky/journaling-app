@@ -14,7 +14,6 @@ struct FriendsView: View {
     @State private var currentUser = Auth.auth().currentUser
     
     private var db = Firestore.firestore()
-
     
     @State private var searchText = ""
     
@@ -22,16 +21,21 @@ struct FriendsView: View {
         NavigationView {
             List {
                 NavigationLink {
-                    ForEach(searchResults) { user in
-                        Button {
-                            print("add friend")
-                            print(viewModel.requests)
-                            addFriend(id: user.id)
-                        } label: {
-                            Label(user.displayname, systemImage: "heart")
-                        }
-                    }.searchable(text: $searchText)
-                        .autocapitalization(.none)
+                    ScrollView {
+                        ForEach(searchResults) { user in
+                            if user.id != currentUser?.uid {
+                                Button {
+                                    print("add friend")
+                                    print(viewModel.requests)
+                                    addFriend(id: user.id)
+                                } label: {
+                                    Label(user.displayname, systemImage: "heart")
+                                }
+                                Divider()
+                            }
+                        }.searchable(text: $searchText)
+                            .autocapitalization(.none)
+                    }
                 } label: {
                     Text("Search users...")
                 }
@@ -52,7 +56,6 @@ struct FriendsView: View {
                             }
                         }
                     }
-
                 }
             }.navigationBarTitle("Friends")
                       

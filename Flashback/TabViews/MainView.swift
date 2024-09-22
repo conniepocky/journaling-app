@@ -20,7 +20,8 @@ struct MainView: View {
         NavigationStack {
             ScrollView(.vertical) {
                 VStack {
-                    if dataManager.prompts.count > 0 { Text(dataManager.prompts[0].text)
+                    if dataManager.prompts.count > 0 { 
+                        Text(dataManager.prompts[0].text)
                             .foregroundColor(.accentColor)
                             .font(.system(.title, design: .serif, weight: .bold))
                             .multilineTextAlignment(.center)

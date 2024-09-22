@@ -18,38 +18,6 @@
             endingLineNumber = "186"
             landmarkName = "addPost(text:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DA3301B6-E2CE-4E77-90AB-81BA9663BF21 - f7cf1f7084d398f4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Flashback.DataManager.addPost(text: Swift.String) -&gt; ()"
-                  moduleName = "Flashback"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/waffles/Desktop/Xcode/Flashback/Flashback/DataManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "336">
-               </Location>
-               <Location
-                  uuid = "DA3301B6-E2CE-4E77-90AB-81BA9663BF21 - 5a23a5993e856f96"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Flashback.DataManager.addPost(text: Swift.String) -&gt; ()"
-                  moduleName = "Flashback"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/waffles/Desktop/Xcode/Flashback/Flashback/DataManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
