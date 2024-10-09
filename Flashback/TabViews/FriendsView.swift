@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase
+import CoreImage.CIFilterBuiltins
+import CodeScanner
 
 struct FriendsView: View {
     
@@ -15,91 +17,82 @@ struct FriendsView: View {
     
     private var db = Firestore.firestore()
     
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    
+    @State private var isShowingScanner = false
+    
     @State private var searchText = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
-                NavigationLink {
-                    ScrollView {
-                        ForEach(searchResults) { user in
-                            if user.id != currentUser?.uid {
-                                Button {
-                                    print("add friend")
-                                    print(viewModel.requests)
-                                    addFriend(id: user.id)
-                                } label: {
-                                    Label(user.displayname, systemImage: "heart")
-                                }
-                                Divider()
-                            }
-                        }.searchable(text: $searchText)
-                            .autocapitalization(.none)
-                    }
-                } label: {
-                    Text("Search users...")
+                Text("Get your friends to scan this QR code in the app to add you!")
+                
+                Image(uiImage: generateQRCode(from: "\(currentUser?.uid)"))
+                    .resizable()
+                    .interpolation(.none)
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+            }.navigationTitle("Friends")
+            .toolbar {
+                Button("Scan", systemImage: "qrcode.viewfinder") {
+                    isShowingScanner = true
                 }
                 
-                Section("Friends") {
-                    ForEach(viewModel.friendsNames, id: \.self) { friend in
-                        Text(friend)
-                    }
-                }
-                
-                Section("Requests") {
-                    ForEach(Array(zip(viewModel.requests, viewModel.requestsNames)), id: \.0) { request in
-                        if !request.1.isEmpty {
-                            Button {
-                                acceptRequest(id: request.0)
-                            } label: {
-                                Text(request.1)
-                            }
-                        }
-                    }
-                }
-            }.navigationBarTitle("Friends")
-                      
+            }
             
         }.onAppear() {
             self.viewModel.fetchUsers()
-            self.viewModel.fetchRequests()
             self.viewModel.fetchFriends()
+            
+        }.sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "Evp4K7uPTTfctcpNITdzVinSUf73", completion: handleScan)
         }
     }
     
+    func handleScan(result: Result<ScanResult, ScanError>) {
+        isShowingScanner = false
+
+        switch result {
+        case .success(let result):
+            let details = result.string
+//            guard details.count == 1 else { return }
+
+            print(details)
+            addFriend(id: details)
+            
+        case .failure(let error):
+            print("Scanning failed: \(error.localizedDescription)")
+        }
+    }
     
-    var searchResults: [Users] {
-            if searchText.isEmpty {
-                return viewModel.users
-            } else {
-                return viewModel.users.filter { $0.displayname.contains(searchText) }
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+
+        if let outputImage = filter.outputImage {
+            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgImage)
             }
         }
-    
-    func addFriend(id: String) {
-        let ref = db.collection("users").document(id)
-        
-        if id != currentUser?.uid {
-            ref.updateData([
-                "requests": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
-            ])
-        }
+
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
     
-    func acceptRequest(id: String) {
-        let ref = db.collection("users").document(id)
-        
-        ref.updateData([
-            "requests": FieldValue.arrayRemove([id]),
-            "friends": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
-        ])
-        
-        let userRef = db.collection("users").document(currentUser?.uid ?? "0")
-        
-        userRef.updateData([
-            "requests": FieldValue.arrayRemove([id]),
-            "friends": FieldValue.arrayUnion([id])
-        ])
+    func addFriend(id: String) {
+        if id != currentUser?.uid {
+            let ref = db.collection("users").document(id)
+            
+            ref.updateData([
+                "friends": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
+            ])
+            
+            let userRef = db.collection("users").document(currentUser?.uid ?? "0")
+            
+            userRef.updateData([
+                "friends": FieldValue.arrayUnion([id])
+            ])
+        }
     }
     
 }

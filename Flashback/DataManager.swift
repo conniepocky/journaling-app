@@ -18,10 +18,6 @@ class DataManager: ObservableObject {
     @Published var users = [Users]()
     
     public var friends = [String]()
-    
-    public var requests = [String]()
-    
-    public var requestsNames = [String]()
     public var friendsNames = [String]()
     
     @State private var currentUser = Auth.auth().currentUser
@@ -112,44 +108,6 @@ class DataManager: ObservableObject {
                 return Users(id: id, displayname: name, friends: friends)
             }
         }
-    }
-    
-    func fetchRequests() {
-        let docRef = db.collection("users").document(currentUser?.uid ?? "0")
-        
-        docRef.getDocument { (document, error) in
-             if let document = document, document.exists {
-                 let docData = document.data()
-                 // Do something with doc data
-                 
-                 //print(docData?["requests"] as? [String])
-                 
-                 self.requests = (docData?["requests"] as? [String])!
-                 
-                 for request in self.requests {
-                     let nameRef = self.db.collection("users").document(request)
-                     
-                     nameRef.getDocument { (document, error) in
-                          if let document = document, document.exists {
-                              let nameData = document.data()
-                              // Do something with doc data
-                              
-                              print(nameData?["displayname"] as? String)
-                              
-                              self.requestsNames.append((nameData?["displayname"] as? String)!)
-                              
-                           } else {
-                              print("Document does not exist")
-                           }
-                     }
-                 }
-                 
-              } else {
-                 print("Document does not exist")
-
-              }
-        }
-
     }
     
     func fetchPosts() {
