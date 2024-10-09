@@ -32,7 +32,6 @@
 		BCD1ACB62C5F9CE6006054FC /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1ACB52C5F9CE6006054FC /* FriendsView.swift */; };
 		BCD1ACB82C5FBAE3006054FC /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1ACB72C5FBAE3006054FC /* Users.swift */; };
 		BCD7DA682CB70304006C491A /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BCD7DA672CB70304006C491A /* CodeScanner */; };
-		BCD7DA6A2CB704FB006C491A /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD7DA692CB704FB006C491A /* ScanView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +54,6 @@
 		BCD1ACB32C5EA800006054FC /* ChangeUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserView.swift; sourceTree = "<group>"; };
 		BCD1ACB52C5F9CE6006054FC /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		BCD1ACB72C5FBAE3006054FC /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
-		BCD7DA692CB704FB006C491A /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +141,6 @@
 				BCA860762A7E952600515B09 /* MainView.swift */,
 				BCA860782A8123F700515B09 /* HistoryView.swift */,
 				BC0C6B642A795D080029782B /* ProfileView.swift */,
-				BCD7DA692CB704FB006C491A /* ScanView.swift */,
 			);
 			path = TabViews;
 			sourceTree = "<group>";
@@ -260,7 +257,6 @@
 				BC0C6B652A795D080029782B /* ProfileView.swift in Sources */,
 				BCD1ACB82C5FBAE3006054FC /* Users.swift in Sources */,
 				BCA860732A7A7EF900515B09 /* SettingsView.swift in Sources */,
-				BCD7DA6A2CB704FB006C491A /* ScanView.swift in Sources */,
 				BCA860882A81401900515B09 /* Prompts.swift in Sources */,
 				BC0C6B632A77EFAA0029782B /* String.swift in Sources */,
 				BCA860862A813FD900515B09 /* Posts.swift in Sources */,

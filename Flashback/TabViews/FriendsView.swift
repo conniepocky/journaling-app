@@ -26,7 +26,7 @@ struct FriendsView: View {
     
     var body: some View {
         NavigationStack {
-            List {
+            VStack {
                 Text("Get your friends to scan this QR code in the app to add you!")
                 
                 Image(uiImage: generateQRCode(from: "\(currentUser?.uid)"))
@@ -35,11 +35,20 @@ struct FriendsView: View {
                     .scaledToFit()
                     .frame(width: 200, height: 200)
             }.navigationTitle("Friends")
+                .padding()
             .toolbar {
                 Button("Scan", systemImage: "qrcode.viewfinder") {
                     isShowingScanner = true
                 }
                 
+            }
+            
+            Section {
+                List {
+                    ForEach(viewModel.friendsNames, id: \.self) { friend in
+                        Text(friend)
+                    }
+                }
             }
             
         }.onAppear() {
