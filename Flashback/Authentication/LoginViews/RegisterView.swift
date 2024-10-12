@@ -66,6 +66,7 @@ struct RegisterView: View {
                     if !username.isValidName {
                         invalidUsername = true
                     } else {
+                        invalidUsername = false
                         register()
                     }
                 } label: {

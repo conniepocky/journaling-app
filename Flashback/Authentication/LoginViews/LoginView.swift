@@ -66,6 +66,7 @@ struct LoginView: View {
                     if email.isEmpty {
                         emailEmptyPassResetAlert = true
                     } else {
+                        emailEmptyPassResetAlert = false
                         resetPassword()
                     }
                 } label: {
