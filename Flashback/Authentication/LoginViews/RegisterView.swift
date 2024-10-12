@@ -14,6 +14,8 @@ struct RegisterView: View {
     @State private var password = ""
     @State private var loggedIn = false
     
+    @State private var invalidUsername = false
+    
     private var db = Firestore.firestore()
     
     var body: some View {
@@ -36,7 +38,7 @@ struct RegisterView: View {
                 
                 Spacer()
                 
-                TextField("Display Name", text: $username)
+                TextField("Username", text: $username)
                     .padding(6.0)
                     .background(RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                                   .stroke(.gray, lineWidth: 1.0))
@@ -61,12 +63,18 @@ struct RegisterView: View {
                     .autocapitalization(.none)
                 
                 Button {
-                    register()
+                    if !username.isValidName {
+                        invalidUsername = true
+                    } else {
+                        register()
+                    }
                 } label: {
                     Text("Register")
                         .frame(width: 200, height: 40)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                }.alert(isPresented: $invalidUsername) {
+                    Alert(title: Text("Invalid Username"), message: Text("Username must contain 3-18 characters, no special characters and only letters, numbers and underscores allowed."), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Spacer()
@@ -76,19 +84,11 @@ struct RegisterView: View {
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
-                    if username.isValidName {
-                        print("valid")
-                        
-                        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                        changeRequest?.displayName = username
-                        changeRequest?.commitChanges { error in
-                            print(error?.localizedDescription as Any)
-                        }
-                        
-                    } else {
-                        //not valid username
-                        
-                        print("invalid username")
+                    
+                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                    changeRequest?.displayName = username
+                    changeRequest?.commitChanges { error in
+                        print(error?.localizedDescription as Any)
                     }
                     
                     let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")

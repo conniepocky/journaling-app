@@ -71,7 +71,7 @@ struct LoginView: View {
                 } label: {
                     Text("Forgot your password?")
                 }.alert(isPresented: $emailEmptyPassResetAlert) {
-                    Alert(title: Text("Error: email empty"), message: Text("Please enter in your email above so we can send an email password resent link."), dismissButton: .default(Text("Got it!")))
+                    Alert(title: Text("Error: Email not filled in"), message: Text("Please enter in your email above so we can send an email password resent link."), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Spacer()
@@ -81,7 +81,6 @@ struct LoginView: View {
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
-                    
                     loggedIn.toggle()
                 }
             }
