@@ -1,25 +1,22 @@
 //
-//  ContentView.swift
+//  RegisterView.swift
 //  Flashback
 //
-//  Created by Connie Waffles on 25/07/2023.
+//  Created by Connie Waffles on 12/10/2024.
 //
 
 import SwiftUI
 import Firebase
 
-struct ContentView: View {
-    
+struct RegisterView: View {
     @State private var email = ""
     @State private var username = ""
     @State private var password = ""
     @State private var loggedIn = false
-    @State private var registation = false
     
     private var db = Firestore.firestore()
     
     var body: some View {
-        
         if (loggedIn) {
             HomeView()
         } else {
@@ -29,15 +26,17 @@ struct ContentView: View {
     
     var content: some View {
         ZStack {
-            VStack(spacing: 20) {
-                Text("Welcome.")
+            VStack {
+                
+                Text("Create an account")
                     .foregroundColor(.accentColor)
                     .font(.system(size: 50))
+                    .multilineTextAlignment(.center)
                     .fontWeight(.semibold)
                 
                 Spacer()
                 
-                TextField("Username", text: $username)
+                TextField("Display Name", text: $username)
                     .padding(6.0)
                     .background(RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                                   .stroke(.gray, lineWidth: 1.0))
@@ -61,69 +60,53 @@ struct ContentView: View {
                     .textContentType(.password)
                     .autocapitalization(.none)
                 
-                
                 Button {
                     register()
                 } label: {
-                    Text("Sign Up")
+                    Text("Register")
                         .frame(width: 200, height: 40)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-              
                 }
-                
-                Button {
-                    login()
-                } label: {
-                    Text("Already have an account? Login.")
-                }
-                
                 
                 Spacer()
-                    
+                
             }.padding(10)
+            
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
-                    if registation {
-                        let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
-                        ref.setData(["displayname": username,
-                                     "friends": [String](),
-                                     "requests": [String](),
-                                     "id": Auth.auth().currentUser?.uid ?? "0"]) { error in
-                            if let error = error {
-                                print(error.localizedDescription)
-                            }
-                        }
-                    }
-                    
                     if username.isValidName {
                         print("valid")
+                        
                         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                         changeRequest?.displayName = username
                         changeRequest?.commitChanges { error in
                             print(error?.localizedDescription as Any)
                         }
                         
-                        
                     } else {
                         //not valid username
+                        
+                        print("invalid username")
                     }
                     
-                    registation = false
+                    let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
+                    ref.setData(["displayname": username,
+                                 "friends": [String](),
+                                 "requests": [String](),
+                                 "id": Auth.auth().currentUser?.uid ?? "0"]) { error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                    
                     loggedIn.toggle()
                 }
             }
         }
     }
     
-    func login() {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-    }
     
     func register() {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
@@ -131,15 +114,9 @@ struct ContentView: View {
                 print(error!.localizedDescription)
             }
         }
-        
-        registation = true
-        
     }
 }
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview {
+    RegisterView()
 }
