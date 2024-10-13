@@ -8,6 +8,8 @@
 import Firebase
 import FirebaseFirestore
 import SwiftUI
+import PhotosUI
+import FirebaseStorage
 
 class DataManager: ObservableObject {
     
@@ -133,8 +135,27 @@ class DataManager: ObservableObject {
         }
     }
     
-    func addPost(text: String) {
+    func addPost(text: String, data: Data?) {
+        
         let ref = db.collection("posts").document()
+        
+        if data != nil {
+            
+            let storageReference = Storage.storage().reference().child("\(ref.documentID).jpg")
+            
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpg"
+            
+            storageReference.putData(data!, metadata: metadata) { (metadata, error) in
+                if let error = error {
+                    print("Error while uploading file: ", error)
+                }
+                
+                if let metadata = metadata {
+                    print("Metadata: ", metadata)
+                }
+            }
+        }
         
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm E, d MMM y"

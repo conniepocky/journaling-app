@@ -8,6 +8,9 @@
 import SwiftUI
 import SwiftUIIntrospect
 import Firebase
+import FirebaseStorage
+
+import SwiftUI
 
 struct MainView: View {
     
@@ -43,19 +46,7 @@ struct MainView: View {
                 
                 VStack(alignment: .leading) {
                     ForEach(friendsPosts) { post in
-                        HStack {
-                            Text(post.author)
-                                .font(.title2)
-                                .foregroundColor(.accentColor)
-                            
-                            Text(post.date_time)
-                                .foregroundColor(.gray)
-    
-                        }
-                           
-                        Text(post.text)
-                            
-                        Divider()
+                        PostView(post: post)
                     }
                 }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                 

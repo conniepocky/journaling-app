@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import PhotosUI
 
 struct CreatePostView: View {
     
@@ -15,6 +16,9 @@ struct CreatePostView: View {
     
     @State private var text = ""
     var currentUser = Auth.auth().currentUser!
+    
+    @State var data: Data?
+    @State var selectedItem: [PhotosPickerItem] = []
     
     var body: some View {
         VStack {
@@ -26,13 +30,38 @@ struct CreatePostView: View {
             }
         }
         
+        PhotosPicker(selection: $selectedItem, maxSelectionCount: 1, selectionBehavior: .default, matching: .images, preferredItemEncoding: .automatic) {
+            if let data = data, let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame( maxHeight: 300)
+            } else {
+                Label("Select a picture", systemImage: "photo.on.rectangle.angled")
+            }
+        }.onChange(of: selectedItem) { newValue in
+            guard let item = selectedItem.first else {
+                return
+            }
+            item.loadTransferable(type: Data.self) { result in
+                switch result {
+                case .success(let data):
+                    if let data = data {
+                        self.data = data
+                    }
+                case .failure(let failure):
+                    print("Error: \(failure.localizedDescription)")
+                }
+            }
+        }
+        
         TextField("Reply..", text: $text, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .lineLimit(5, reservesSpace: true)
                         .padding()
         
         Button {
-            dataManager.addPost(text: text)
+            dataManager.addPost(text: text, data: data)
             presentationMode.wrappedValue.dismiss()
         } label: {
             Text("Post")
