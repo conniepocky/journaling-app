@@ -128,18 +128,19 @@ class DataManager: ObservableObject {
                 let author = data["author"] as? String ?? ""
                 let prompt = data["prompt"] as? String ?? ""
                 let author_id = data["author_id"] as? String ?? ""
+                let image = data["image"] as? Bool ?? false
                 let date_time = data["date_time"] as? String ?? "Unknown date"
 
-                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time)
+                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image)
             }
         }
     }
     
-    func addPost(text: String, data: Data?) {
+    func addPost(text: String, data: Data?, selectedImg: Bool) {
         
         let ref = db.collection("posts").document()
         
-        if data != nil {
+        if selectedImg {
             
             let storageReference = Storage.storage().reference().child("\(ref.documentID).jpg")
             
@@ -162,7 +163,7 @@ class DataManager: ObservableObject {
         
         let today = Date.now
         
-        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName, "date_time": formatter.string(from: today)]) { error in
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName, "image": selectedImg, "date_time": formatter.string(from: today)]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

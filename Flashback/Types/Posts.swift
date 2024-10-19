@@ -14,4 +14,5 @@ struct Posts: Identifiable {
     var author: String
     var author_id: String
     var date_time: String
+    var image: Bool
 }

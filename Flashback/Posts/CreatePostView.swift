@@ -61,8 +61,10 @@ struct CreatePostView: View {
                         .padding()
         
         Button {
-            dataManager.addPost(text: text, data: data)
-            presentationMode.wrappedValue.dismiss()
+            if !text.isEmpty {
+                dataManager.addPost(text: text, data: data, selectedImg: selectedItem.isEmpty)
+                presentationMode.wrappedValue.dismiss()
+            }
         } label: {
             Text("Post")
                 .frame(width: 200, height: 40)

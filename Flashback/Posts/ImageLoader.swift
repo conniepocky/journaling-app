@@ -13,7 +13,7 @@ class ImageLoader: ObservableObject {
     @Published var image: UIImage?
 
     func loadImage(postID: String) {
-        let storageRef = Storage.storage().reference().child("\(postID).jpg") // Assuming images are stored as `postID.jpg`
+        let storageRef = Storage.storage().reference().child("\(postID).jpg")
 
         storageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
             if let error = error {

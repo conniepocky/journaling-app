@@ -27,14 +27,15 @@ struct PostView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
             }
-
-            if let image = imageLoader.image {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .cornerRadius(10)
-                    .padding(.bottom, 10)
+            if post.image {
+                if let image = imageLoader.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(10)
+                        .padding(.bottom, 10)
+                }
             }
 
             Text(post.text)
@@ -46,7 +47,9 @@ struct PostView: View {
             Divider()
         }
         .onAppear {
-            imageLoader.loadImage(postID: post.id) // Load image using post ID
+            if post.image {
+                imageLoader.loadImage(postID: post.id)
+            }
         }
     }
 }

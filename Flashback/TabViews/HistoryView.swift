@@ -22,20 +22,7 @@ struct HistoryView: View {
                     NavigationLink {
                         VStack(alignment: .leading) {
                             ForEach(friendsPosts) { post in
-                                if post.prompt == prompt.docName {
-                                    HStack {
-                                        Text(post.author)
-                                            .font(.title2)
-                                            .foregroundColor(.accentColor)
-                                        
-                                        Text(post.date_time)
-                                            .foregroundColor(.gray)
-                                    }
-                                       
-                                    Text(post.text)
-                                    
-                                    Divider()
-                                }
+                                PostView(post: post)
                             }
                         }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         
@@ -54,7 +41,7 @@ struct HistoryView: View {
             
             for post in dataManager.posts {
                 if post.prompt == dataManager.prompts[0].docName && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
-                    if !self.friendsPosts.contains(where: {$0.author_id == post.author_id}) {
+                    if !self.friendsPosts.contains(where: {$0.id == post.id}) {
                         self.friendsPosts.append(post)
                     }
                 }
