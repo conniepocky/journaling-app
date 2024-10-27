@@ -15,6 +15,7 @@ struct RegisterView: View {
     @State private var loggedIn = false
     
     @State private var invalidUsername = false
+    @State private var emailLinkSent = false
     
     private var db = Firestore.firestore()
     
@@ -76,6 +77,8 @@ struct RegisterView: View {
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                 }.alert(isPresented: $invalidUsername) {
                     Alert(title: Text("Invalid Username"), message: Text("Username must contain 3-18 characters, no special characters and only letters, numbers and underscores allowed."), dismissButton: .default(Text("Got it!")))
+                }.alert(isPresented: $emailLinkSent) {
+                    Alert(title: Text("Verification Link"), message: Text("Please check your email for an email verification link"), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Spacer()
@@ -112,8 +115,22 @@ struct RegisterView: View {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
                 print(error!.localizedDescription)
+            } else {
+                sendEmailLink()
             }
         }
+    }
+    
+    func sendEmailLink() {
+        Auth.auth().currentUser?.sendEmailVerification(completion: { (error) in
+            // Notify the user that the mail has sent or couldn't because of an error.
+            if error != nil {
+                print(error)
+            } else {
+                self.emailLinkSent = true
+                print("sent link!")
+            }
+        })
     }
 }
 

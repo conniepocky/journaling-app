@@ -15,6 +15,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var loggedIn = false
     
+    @State private var resettingPasswordAlert = false
     @State private var emailEmptyPassResetAlert = false
     
     private var db = Firestore.firestore()
@@ -65,14 +66,18 @@ struct LoginView: View {
                 Button {
                     if email.isEmpty {
                         emailEmptyPassResetAlert = true
+                        resettingPasswordAlert = false
                     } else {
                         emailEmptyPassResetAlert = false
+                        resettingPasswordAlert = true
                         resetPassword()
                     }
                 } label: {
                     Text("Forgot your password?")
                 }.alert(isPresented: $emailEmptyPassResetAlert) {
                     Alert(title: Text("Email not filled in"), message: Text("Please enter in your email above so we can send an email password resent link."), dismissButton: .default(Text("Got it!")))
+                }.alert(isPresented: $resettingPasswordAlert) {
+                    Alert(title: Text("Password Reset Email"), message: Text("Your email password reset link has been sent."), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Spacer()
@@ -99,7 +104,6 @@ struct LoginView: View {
     func resetPassword() {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             print(email)
-            print("testing")
         }
     }
 }

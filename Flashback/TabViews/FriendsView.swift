@@ -67,8 +67,7 @@ struct FriendsView: View {
         case .success(let result):
             let details = result.string
 //            guard details.count == 1 else { return }
-
-            print(details)
+            
             addFriend(id: details)
             
         case .failure(let error):

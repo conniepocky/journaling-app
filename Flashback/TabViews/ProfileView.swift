@@ -42,11 +42,20 @@ struct ProfileView: View {
                         .padding()
                 }
                 
+                if !(currentUser?.isEmailVerified ?? true) {
+                    Text("Please check your inbox to verify your email!")
+                }
+                
                 Spacer()
             }.introspect(.scrollView, on: .iOS(.v13, .v14, .v15, .v16, .v17)) { scrollView in
                 scrollView.bounces = false
             }
             .navigationBarHidden(true)
+        }.onAppear {
+            Auth.auth().currentUser?.getIDTokenForcingRefresh(true)
+            Auth.auth().currentUser?.reload()
+            
+            print(currentUser?.isEmailVerified)
         }
     }
 }

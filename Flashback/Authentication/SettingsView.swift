@@ -11,12 +11,15 @@ import Firebase
 struct SettingsView: View {
     
     @State private var currentUser = Auth.auth().currentUser
+    private var db = Firestore.firestore()
     
     @State private var newDisplayName = ""
     @State private var newPassword = ""
     @State private var oldPassword = ""
     @State private var newEmailAddress = ""
     @State private var emailPasswordAuthenticate = ""
+    
+    @State private var confirmDelete = false
     
     var body: some View {
         VStack {
@@ -99,10 +102,27 @@ struct SettingsView: View {
                         logout()
                     } label: {
                         Text("Log Out")
-                            .frame(width: 200, height: 40)
+                            .frame(width: 150, height: 40)
                             .foregroundColor(.white)
                             .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                         
+                    }
+                    
+                    Button {
+                        confirmDelete = true
+                    } label: {
+                        Text("Delete Account")
+                            .frame(width: 150, height: 40)
+                            .foregroundColor(.white)
+                            .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                        
+                    }.alert("Account Deletation", isPresented: $confirmDelete) {
+                        Button("Yes, delete") {
+                            deleteAccount()
+                        }
+                        Button("No", role: .cancel) { }
+                    } message: {
+                        Text("Are you sure you wish to delete your account? This action is irreversible.")
                     }
                     
                     Spacer()
@@ -116,18 +136,48 @@ struct SettingsView: View {
         }
     }
     
+    func deleteAccountDocument() async {
+        do {
+            try await db.collection("users").document(currentUser!.uid).delete()
+            print("Document successfully removed!")
+        } catch {
+            print("Error removing document: \(error)")
+        }
+    }
+
+    
+    func deleteAccount() {
+        Task {
+            await deleteAccountDocument()
+        }
+
+        currentUser?.delete { error in
+          if let _ = error {
+            // An error happened.
+          } else {
+            // Account deleted.
+          }
+        }
+        
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("sign out failed")
+        }
+    }
+    
     func updateEmailAddress(email: String, password: String) {
         let user = Auth.auth().currentUser
 
         let credential = EmailAuthProvider.credential(withEmail: user!.email!, password: password)
 
         user?.reauthenticate(with: credential, completion: { (authResult, error) in
-           if let error = error {
+           if let _ = error {
               // Handle re-authentication error
               return
            }
            user?.updateEmail(to: email, completion: { (error) in
-              if let error = error {
+              if let _ = error {
                  // Handle password update error
                  return
               }
