@@ -21,6 +21,9 @@
 		BC0C6B652A795D080029782B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C6B642A795D080029782B /* ProfileView.swift */; };
 		BC2965E02CBA70F2007EA31B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2965DF2CBA70F2007EA31B /* RegisterView.swift */; };
 		BC2965E22CBA7100007EA31B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2965E12CBA7100007EA31B /* LoginView.swift */; };
+		BC2965E42CBBF4AF007EA31B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BC2965E32CBBF4AF007EA31B /* FirebaseStorage */; };
+		BC92B11C2CBC0EC100C7AC6D /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92B11B2CBC0EC100C7AC6D /* ImageLoader.swift */; };
+		BC92B11F2CBC2EB600C7AC6D /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92B11E2CBC2EB600C7AC6D /* PostView.swift */; };
 		BCA860732A7A7EF900515B09 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860722A7A7EF900515B09 /* SettingsView.swift */; };
 		BCA860772A7E952600515B09 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860762A7E952600515B09 /* MainView.swift */; };
 		BCA860792A8123F700515B09 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860782A8123F700515B09 /* HistoryView.swift */; };
@@ -48,6 +51,8 @@
 		BC0C6B642A795D080029782B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		BC2965DF2CBA70F2007EA31B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		BC2965E12CBA7100007EA31B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BC92B11B2CBC0EC100C7AC6D /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		BC92B11E2CBC2EB600C7AC6D /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		BCA860722A7A7EF900515B09 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BCA860762A7E952600515B09 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BCA860782A8123F700515B09 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -70,6 +75,7 @@
 				BCA8607F2A8130C100515B09 /* Introspect in Frameworks */,
 				BCA860812A8130C100515B09 /* SwiftUIIntrospect in Frameworks */,
 				BC0C6B592A7559B40029782B /* FirebaseAuth in Frameworks */,
+				BC2965E42CBBF4AF007EA31B /* FirebaseStorage in Frameworks */,
 				BCD7DA682CB70304006C491A /* CodeScanner in Frameworks */,
 				BC0C6B5D2A7559B40029782B /* FirebaseFirestore in Frameworks */,
 			);
@@ -101,6 +107,7 @@
 				BCA8607A2A81242200515B09 /* Authentication */,
 				BCA8607C2A81247200515B09 /* TabViews */,
 				BC0C6B532A6FDFFA0029782B /* HomeView.swift */,
+				BC92B11D2CBC2EA200C7AC6D /* Posts */,
 				BCA860842A813FC500515B09 /* Types */,
 				BCA8607B2A81245B00515B09 /* Extensions */,
 				BCA860822A813F1B00515B09 /* DataManager.swift */,
@@ -129,13 +136,22 @@
 			path = LoginViews;
 			sourceTree = "<group>";
 		};
+		BC92B11D2CBC2EA200C7AC6D /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				BC92B11B2CBC0EC100C7AC6D /* ImageLoader.swift */,
+				BCA8608D2A84D75F00515B09 /* CreatePostView.swift */,
+				BC92B11E2CBC2EB600C7AC6D /* PostView.swift */,
+			);
+			path = Posts;
+			sourceTree = "<group>";
+		};
 		BCA8607A2A81242200515B09 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
 				BC2965DE2CBA6FBF007EA31B /* LoginViews */,
 				BCD1ACB02C5EA0D0006054FC /* ChangeViews */,
 				BCA860722A7A7EF900515B09 /* SettingsView.swift */,
-				BCA8608D2A84D75F00515B09 /* CreatePostView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -201,6 +217,7 @@
 				BCA8607E2A8130C100515B09 /* Introspect */,
 				BCA860802A8130C100515B09 /* SwiftUIIntrospect */,
 				BCD7DA672CB70304006C491A /* CodeScanner */,
+				BC2965E32CBBF4AF007EA31B /* FirebaseStorage */,
 			);
 			productName = Flashback;
 			productReference = BC0C6B422A6FDC500029782B /* Flashback.app */;
@@ -271,11 +288,13 @@
 				BC0C6B652A795D080029782B /* ProfileView.swift in Sources */,
 				BCD1ACB82C5FBAE3006054FC /* Users.swift in Sources */,
 				BCA860732A7A7EF900515B09 /* SettingsView.swift in Sources */,
+				BC92B11F2CBC2EB600C7AC6D /* PostView.swift in Sources */,
 				BCA860882A81401900515B09 /* Prompts.swift in Sources */,
 				BC2965E22CBA7100007EA31B /* LoginView.swift in Sources */,
 				BC0C6B632A77EFAA0029782B /* String.swift in Sources */,
 				BCA860862A813FD900515B09 /* Posts.swift in Sources */,
 				BCA860832A813F1B00515B09 /* DataManager.swift in Sources */,
+				BC92B11C2CBC0EC100C7AC6D /* ImageLoader.swift in Sources */,
 				BC2965E02CBA70F2007EA31B /* RegisterView.swift in Sources */,
 				BC0C6B462A6FDC500029782B /* FlashbackApp.swift in Sources */,
 				BCD1ACB42C5EA800006054FC /* ChangeUserView.swift in Sources */,
@@ -410,6 +429,7 @@
 				DEVELOPMENT_TEAM = JZVTAQKYRT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -439,6 +459,7 @@
 				DEVELOPMENT_TEAM = JZVTAQKYRT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR codes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -527,6 +548,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BC0C6B572A7559B40029782B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		BC2965E32CBBF4AF007EA31B /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC0C6B572A7559B40029782B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 		BCA8607E2A8130C100515B09 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
