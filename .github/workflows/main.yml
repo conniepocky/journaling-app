@@ -1,0 +1,64 @@
+name: Upload Random Prompt to Firestore
+
+on:
+  schedule:
+    # Run every 24 hours
+    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+
+  workflow_dispatch: # Allows manual triggering of the workflow from GitHub
+
+jobs:
+  upload-random-prompt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install firebase-admin
+
+      - name: Upload random prompt to Firestore
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        run: |
+          # Write the service account key to a JSON file
+          echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > firebase-key.json
+
+          # Create a Node.js script to read a random line and upload it to Firestore
+          cat << EOF > upload-random-prompt.js
+          const admin = require("firebase-admin");
+          const fs = require("fs");
+
+          // Initialize Firebase Admin SDK with service account key
+          const serviceAccount = require("./firebase-key.json");
+          admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount)
+          });
+
+          const db = admin.firestore();
+
+          // Read the prompts file and select a random line
+          const prompts = fs.readFileSync("prompts.txt", "utf8").split("\\n");
+          const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+
+          // Add the random prompt to Firestore as a new document
+          async function uploadToFirestore() {
+            const docRef = db.collection("prompts").doc();
+            await docRef.set({
+              prompt: randomPrompt,
+              timestamp: admin.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("Random prompt uploaded successfully to Firestore:", randomPrompt);
+          }
+
+          uploadToFirestore().catch(console.error);
+          EOF
+
+          # Run the upload script
+          node upload-random-prompt.js
