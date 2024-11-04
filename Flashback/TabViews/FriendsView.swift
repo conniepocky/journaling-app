@@ -24,6 +24,8 @@ struct FriendsView: View {
     
     @State private var searchText = ""
     
+    @State var friendAdded = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -49,6 +51,8 @@ struct FriendsView: View {
                         Text(friend)
                     }
                 }
+            }.alert(isPresented: $friendAdded) { () -> Alert in
+                Alert(title: Text("New Friend"), message: Text("Friend successfully added!"), dismissButton: .cancel())
             }
             
         }.onAppear() {
@@ -100,6 +104,10 @@ struct FriendsView: View {
             userRef.updateData([
                 "friends": FieldValue.arrayUnion([id])
             ])
+            
+            friendAdded = true
+            
+            self.viewModel.fetchFriends()
         }
     }
     
