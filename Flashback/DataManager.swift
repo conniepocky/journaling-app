@@ -73,6 +73,9 @@ class DataManager: ObservableObject {
     
     func fetchPrompts() {
         
+        
+        db.collection("prompts").order(by: "timestamp", descending: true)
+        
         db.collection("prompts").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("no documents")
@@ -80,21 +83,22 @@ class DataManager: ObservableObject {
             }
 
             self.prompts = documents.map { queryDocumentSnapshot -> Prompts in
+                
                 let data = queryDocumentSnapshot.data()
                   
                 let text = data["text"] as? String ?? ""
-                let id = data["id"] as? Int ?? 0
-                let docName = queryDocumentSnapshot.documentID
-                    
-                print(docName)
+                let id = queryDocumentSnapshot.documentID
+                
+                print(text)
 
-                return Prompts(text: text, id: id, docName: docName)
+                return Prompts(text: text, id: id)
             }
         }
                     
     }
     
     func fetchUsers() {
+        
         db.collection("users").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents")
@@ -163,7 +167,7 @@ class DataManager: ObservableObject {
         
         let today = Date.now
         
-        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].docName, "image": selectedImg, "date_time": formatter.string(from: today)]) { error in
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].id, "image": selectedImg, "date_time": formatter.string(from: today)]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

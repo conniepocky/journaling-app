@@ -58,7 +58,7 @@ struct MainView: View {
             print(dataManager.friends)
             
             for post in dataManager.posts {
-                if post.prompt == dataManager.prompts[0].docName && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
+                if post.prompt == dataManager.prompts[0].id && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
                     if !self.friendsPosts.contains(where: {$0.id == post.id}) {
                         print(post.text)
                         self.friendsPosts.append(post)

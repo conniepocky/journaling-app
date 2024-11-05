@@ -25,8 +25,20 @@ struct HistoryView: View {
                                 PostView(post: post)
                             }
                         }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
-                        
+                        .onAppear {
+                            self.friendsPosts = []
+                            
+                            for post in dataManager.posts {
+                                if post.prompt == prompt.id && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
+                                    if !self.friendsPosts.contains(where: {$0.id == post.id}) {
+                                        self.friendsPosts.append(post)
+                                    }
+                                }
+                            }
+                        }
+            
                         Spacer()
+                        
                     } label: {
                         Text(prompt.text)
                             .font(.title3)
@@ -39,13 +51,7 @@ struct HistoryView: View {
         }.onAppear {
             dataManager.fetchFriends()
             
-            for post in dataManager.posts {
-                if post.prompt == dataManager.prompts[0].docName && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
-                    if !self.friendsPosts.contains(where: {$0.id == post.id}) {
-                        self.friendsPosts.append(post)
-                    }
-                }
-            }
+            self.friendsPosts = []
         }
     }
 }

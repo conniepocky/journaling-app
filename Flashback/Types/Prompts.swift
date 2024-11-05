@@ -9,6 +9,5 @@ import SwiftUI
 
 struct Prompts: Identifiable {
     var text: String
-    var id: Int
-    var docName: String
+    var id: String
 }
