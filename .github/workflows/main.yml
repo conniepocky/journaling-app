@@ -52,6 +52,7 @@ jobs:
             const docRef = db.collection("prompts").doc();
             await docRef.set({
               text: randomPrompt,
+              timestamp: admin.firestore.FieldValue.serverTimestamp()
             });
             console.log("Random prompt uploaded successfully to Firestore:", randomPrompt);
           }
