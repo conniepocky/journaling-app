@@ -50,8 +50,10 @@ jobs:
           // Add the random prompt to Firestore as a new document
           async function uploadToFirestore() {
             const docRef = db.collection("prompts").doc();
+            const docId = docRef.id;
             await docRef.set({
               text: randomPrompt,
+              id: docId,
               timestamp: admin.firestore.FieldValue.serverTimestamp()
             });
             console.log("Random prompt uploaded successfully to Firestore:", randomPrompt);
