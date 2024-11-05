@@ -51,8 +51,7 @@ jobs:
           async function uploadToFirestore() {
             const docRef = db.collection("prompts").doc();
             await docRef.set({
-              prompt: randomPrompt,
-              timestamp: admin.firestore.FieldValue.serverTimestamp()
+              text: randomPrompt,
             });
             console.log("Random prompt uploaded successfully to Firestore:", randomPrompt);
           }
