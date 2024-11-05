@@ -44,14 +44,16 @@ jobs:
           const db = admin.firestore();
 
           // Read the prompts file and select a random line
-          const prompts = fs.readFileSync("../prompts.txt", "utf8").split("\\n");
+          const prompts = fs.readFileSync("prompts.txt", "utf8").split("\\n");
           const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
 
           // Add the random prompt to Firestore as a new document
           async function uploadToFirestore() {
             const docRef = db.collection("prompts").doc();
+            const docId = docRef.id;
             await docRef.set({
-              prompt: randomPrompt,
+              text: randomPrompt,
+              id: docId,
               timestamp: admin.firestore.FieldValue.serverTimestamp()
             });
             console.log("Random prompt uploaded successfully to Firestore:", randomPrompt);
