@@ -21,9 +21,17 @@ struct HistoryView: View {
                 ForEach(dataManager.prompts) { prompt in
                     NavigationLink {
                         VStack(alignment: .leading) {
-                            ForEach(friendsPosts) { post in
-                                PostView(post: post)
+                            if friendsPosts.count >= 1 {
+                                ForEach(friendsPosts) { post in
+                                    PostView(post: post, isHistory: true)
+                                }
+                            } else {
+                                Text("No posts found for this date :(")
+                                    .multilineTextAlignment(.center)
+                                    .font(.title2)
+                                    .foregroundStyle(.secondary)
                             }
+                            
                         }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         .onAppear {
                             self.friendsPosts = []
@@ -48,6 +56,7 @@ struct HistoryView: View {
                     Divider()
                 }
             }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+                .navigationTitle("History")
         }.onAppear {
             dataManager.fetchFriends()
             

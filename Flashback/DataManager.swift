@@ -73,7 +73,6 @@ class DataManager: ObservableObject {
     
     func fetchPrompts() {
         
-        
         db.collection("prompts").order(by: "timestamp", descending: true)
         
         db.collection("prompts").addSnapshotListener { (querySnapshot, error) in
@@ -87,11 +86,12 @@ class DataManager: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                   
                 let text = data["text"] as? String ?? ""
+                let date_time = data["timestamp"] as? Date ?? Date.now
                 let id = queryDocumentSnapshot.documentID
                 
                 print(text)
 
-                return Prompts(text: text, id: id)
+                return Prompts(text: text, id: id, date_time: date_time)
             }
         }
                     
@@ -134,8 +134,9 @@ class DataManager: ObservableObject {
                 let author_id = data["author_id"] as? String ?? ""
                 let image = data["image"] as? Bool ?? false
                 let date_time = data["date_time"] as? String ?? "Unknown date"
+                let likes = data["likes"] as? [String] ?? []
 
-                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image)
+                  return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image, likes: likes)
             }
         }
     }
@@ -167,7 +168,7 @@ class DataManager: ObservableObject {
         
         let today = Date.now
         
-        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].id, "image": selectedImg, "date_time": formatter.string(from: today)]) { error in
+        ref.setData(["author_id": Auth.auth().currentUser?.uid ?? "Unknown", "author": Auth.auth().currentUser?.displayName ?? "Unknown", "text": text, "id": ref.documentID, "prompt": prompts[0].id, "likes": [], "image": selectedImg, "date_time": formatter.string(from: today)]) { error in
             if let error = error {
                 print(error.localizedDescription)
             }

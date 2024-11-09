@@ -15,4 +15,5 @@ struct Posts: Identifiable {
     var author_id: String
     var date_time: String
     var image: Bool
+    var likes: [String]
 }

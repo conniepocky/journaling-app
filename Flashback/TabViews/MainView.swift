@@ -29,7 +29,7 @@ struct MainView: View {
                             .font(.system(.title, design: .serif, weight: .bold))
                             .multilineTextAlignment(.center)
                     }
-                    Text(Date.now, format: .dateTime.day().month().year())
+                    Text(dataManager.prompts[0].date_time, format: .dateTime.day().month().year())
                         .font(.subheadline)
 
                 }.padding()
@@ -45,8 +45,16 @@ struct MainView: View {
                 Divider()
                 
                 VStack(alignment: .leading) {
-                    ForEach(friendsPosts) { post in
-                        PostView(post: post)
+                    if friendsPosts.count >= 1 {
+                        ForEach(friendsPosts) { post in
+                            PostView(post: post, isHistory: false)
+                        }
+                    } else {
+                        Text("Nothing to see here yet, why don't you add a reply and start a trend!")
+                            .multilineTextAlignment(.center)
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                        
                     }
                 }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                 

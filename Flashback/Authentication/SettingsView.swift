@@ -186,12 +186,22 @@ struct SettingsView: View {
         })
     }
     
-    func updateDisplayName(name: String) {
+    func updateDisplayName(name: String) async {
         if name.isValidName {
             let changeRequest = currentUser!.createProfileChangeRequest()
             changeRequest.displayName = name
             changeRequest.commitChanges { error in
                 print(error as Any)
+            }
+            
+            let userRef = db.collection("users").document(currentUser!.uid)
+            
+            do {
+              try await userRef.updateData([
+                "displayname": name
+              ])
+            } catch {
+              print("Error updating document: \(error)")
             }
         } else {
             //name not valid

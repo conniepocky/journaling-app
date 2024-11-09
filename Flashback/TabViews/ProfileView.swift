@@ -14,48 +14,42 @@ struct ProfileView: View {
     @State private var currentUser = Auth.auth().currentUser
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack {
-                    HStack {
-                        Text("Profile")
-                            .font(.largeTitle.bold())
-
-                        Spacer()
-
-                        NavigationLink {
-                            SettingsView()
-                        } label: {
-                            Image(systemName: "pencil.circle.fill")
-                                .font(.largeTitle)
-                                .foregroundColor(.accentColor)
-                        }
-                    }
-                    
-                    Divider()
-                }
-                .padding()
+        NavigationStack {
+            VStack() {
+                Text(currentUser?.displayName ?? "")
+                    .font(.title)
+                    .padding()
                 
-                VStack(alignment: .leading) {
-                    Text(currentUser?.displayName ?? "")
-                        .font(.title)
-                        .padding()
+                Divider()
+                
+            }.navigationTitle("Profile")
+            .toolbar {
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Image(systemName: "pencil.circle.fill")
+                        .foregroundColor(.accentColor)
+                        .font(.title3)
+                }
+            }
+            
+            Section {
+                
+                ShareLink(item: "Download Flashback app") {
+                    Label("Share this app with friends!", systemImage: "square.and.arrow.up")
                 }
                 
                 if !(currentUser?.isEmailVerified ?? true) {
                     Text("Please check your inbox to verify your email!")
                 }
                 
-                Spacer()
-            }.introspect(.scrollView, on: .iOS(.v13, .v14, .v15, .v16, .v17)) { scrollView in
-                scrollView.bounces = false
-            }
-            .navigationBarHidden(true)
+            }.padding()
+            
+            Spacer()
         }.onAppear {
             Auth.auth().currentUser?.getIDTokenForcingRefresh(true)
             Auth.auth().currentUser?.reload()
             
-            print(currentUser?.isEmailVerified)
         }
     }
 }
@@ -65,3 +59,24 @@ struct ProfileView_Previews: PreviewProvider {
         ProfileView()
     }
 }
+
+
+//                VStack {
+//                    HStack {
+//                        Text("Profile")
+//                            .font(.largeTitle.bold())
+//
+//                        Spacer()
+//
+//                        NavigationLink {
+//                            SettingsView()
+//                        } label: {
+//                            Image(systemName: "pencil.circle.fill")
+//                                .font(.largeTitle)
+//                                .foregroundColor(.accentColor)
+//                        }
+//                    }.padding()
+//
+//                    Divider()
+//                }
+//                .padding()

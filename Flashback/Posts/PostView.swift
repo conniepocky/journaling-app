@@ -11,7 +11,15 @@ import PhotosUI
 
 struct PostView: View {
     let post: Posts
+    let isHistory: Bool
     @StateObject private var imageLoader = ImageLoader()
+    
+    var currentUser = Auth.auth().currentUser!
+    
+    public var db = Firestore.firestore()
+    
+    @State var likeCount = 0
+    @State var isLiked = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -37,18 +45,56 @@ struct PostView: View {
                         .padding(.bottom, 10)
                 }
             }
-
-            Text(post.text)
-                .font(.body)
-                .foregroundColor(.primary)
-                .lineLimit(nil)
-                .multilineTextAlignment(.leading)
+            
+            HStack {
+                Text(post.text)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .lineLimit(nil)
+                    .multilineTextAlignment(.leading)
+                
+                Button(action: {
+                    if !isHistory {
+                        let postRef = db.collection("posts").document(post.id)
+                        
+                        if !isLiked {
+                            postRef.updateData([
+                                "likes": FieldValue.arrayUnion([currentUser.uid])
+                            ])
+                        } else {
+                            postRef.updateData([
+                                "likes": FieldValue.arrayRemove([currentUser.uid])
+                            ])
+                        }
+                        
+                        isLiked.toggle()
+                    }
+                    
+                }) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                        .foregroundColor(isLiked ? .red : .gray)
+                        .font(.title2)
+                    
+                    Text("\(likeCount)")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
 
             Divider()
         }
         .onAppear {
             if post.image {
                 imageLoader.loadImage(postID: post.id)
+            }
+            
+            likeCount = post.likes.count
+            
+            if post.likes.contains(currentUser.uid) {
+                isLiked = true
+            } else {
+                isLiked = false
             }
         }
     }

@@ -10,4 +10,5 @@ import SwiftUI
 struct Prompts: Identifiable {
     var text: String
     var id: String
+    var date_time: Date
 }
