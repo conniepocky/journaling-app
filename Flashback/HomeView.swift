@@ -32,7 +32,7 @@ struct HomeView: View {
                 Text("History")
             }
             FriendsView().tabItem() {
-                Image(systemName: "person.circle")
+                Image(systemName: "person.2.fill")
                 Text("Friends")
             }
             ProfileView().tabItem() {

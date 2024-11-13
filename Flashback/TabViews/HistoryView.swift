@@ -21,6 +21,12 @@ struct HistoryView: View {
                 ForEach(dataManager.prompts) { prompt in
                     NavigationLink {
                         VStack(alignment: .leading) {
+                            Text(prompt.text)
+                                .foregroundColor(.accentColor)
+                                .font(.system(.title, design: .serif, weight: .bold))
+                            
+                            Divider()
+                            
                             if friendsPosts.count >= 1 {
                                 ForEach(friendsPosts) { post in
                                     PostView(post: post, isHistory: true)
@@ -48,7 +54,7 @@ struct HistoryView: View {
                         Spacer()
                         
                     } label: {
-                        Text(prompt.text)
+                        Text(prompt.date_time, format: .dateTime.day().month().year())
                             .font(.title3)
                             .foregroundColor(.secondary)
                             

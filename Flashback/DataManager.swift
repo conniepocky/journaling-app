@@ -20,7 +20,8 @@ class DataManager: ObservableObject {
     @Published var users = [Users]()
     
     public var friends = [String]()
-    public var friendsNames = [String]()
+    
+    public var friendsDictionary = [String: String]()
     
     @State private var currentUser = Auth.auth().currentUser
     
@@ -34,48 +35,43 @@ class DataManager: ObservableObject {
     }
     
     func fetchFriends() {
+        
+        friendsDictionary.removeAll()
+        
         let docRef = db.collection("users").document(currentUser?.uid ?? "0")
         
         docRef.getDocument { (document, error) in
-             if let document = document, document.exists {
-                 let docData = document.data()
-                 // Do something with doc data
-                 
-                 print(docData?["friends"] as? [String])
-                 
-                 self.friends = (docData?["friends"] as? [String])!
-                 
-                 for friend in self.friends {
-                     let nameRef = self.db.collection("users").document(friend)
-                     
-                     nameRef.getDocument { (document, error) in
-                          if let document = document, document.exists {
-                              let nameData = document.data()
-                              // Do something with doc data
-                              
-                              print(nameData?["displayname"] as? String)
-                              
-                              if !self.friendsNames.contains(nameData?["displayname"] as? String ?? "test") {
-                                  self.friendsNames.append((nameData?["displayname"] as? String)!)
-                              }
-                              
-                           } else {
-                              print("Document does not exist")
-                           }
-                     }
-                 }
-              } else {
-                 print("Document does not exist")
+            if let document = document, document.exists {
+                let docData = document.data()
+                
+                let friends = (docData?["friends"] as? [String]) ?? []
 
-              }
+                for friend in friends {
+                    let nameRef = self.db.collection("users").document(friend)
+                    
+                    nameRef.getDocument { (document, error) in
+                        if let document = document, document.exists {
+                            let nameData = document.data()
+                            let displayName = nameData?["displayname"] as? String ?? "Unknown"
+                            
+                            self.friendsDictionary[friend] = displayName
+                            
+                        } else {
+                            print("Document does not exist for friend ID: \(friend)")
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist for the current user.")
+            }
         }
     }
     
     func fetchPrompts() {
         
-        db.collection("prompts").order(by: "timestamp", descending: true)
-        
-        db.collection("prompts").addSnapshotListener { (querySnapshot, error) in
+        db.collection("prompts")
+            .order(by: "timestamp", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("no documents")
                 return
@@ -86,7 +82,10 @@ class DataManager: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                   
                 let text = data["text"] as? String ?? ""
-                let date_time = data["timestamp"] as? Date ?? Date.now
+                
+                var dt = data["timestamp"] as? Timestamp
+                let date_time = dt?.dateValue() ?? Date.now
+                
                 let id = queryDocumentSnapshot.documentID
                 
                 print(text)
@@ -94,6 +93,7 @@ class DataManager: ObservableObject {
                 return Prompts(text: text, id: id, date_time: date_time)
             }
         }
+        
                     
     }
     

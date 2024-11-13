@@ -26,6 +26,8 @@ struct FriendsView: View {
     
     @State var friendAdded = false
     
+    @State private var confirmDelete = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -42,13 +44,24 @@ struct FriendsView: View {
                 Button("Scan", systemImage: "qrcode.viewfinder") {
                     isShowingScanner = true
                 }
-                
             }
             
             Section {
                 List {
-                    ForEach(viewModel.friendsNames, id: \.self) { friend in
-                        Text(friend)
+                    ForEach(viewModel.friendsDictionary.keys.sorted(), id: \.self) { friend in
+                        Button {
+                            confirmDelete = true
+                        } label: {
+                            Text(viewModel.friendsDictionary[friend] ?? "Unknown")
+                            
+                        }.alert("Friend Removal", isPresented: $confirmDelete) {
+                            Button("Yes, remove") {
+                                removeFriend(id: friend)
+                            }
+                            Button("No", role: .cancel) { }
+                        } message: {
+                            Text("Are you sure you wish to remove this friend?")
+                        }
                     }
                 }
             }.alert(isPresented: $friendAdded) { () -> Alert in
@@ -106,6 +119,24 @@ struct FriendsView: View {
             ])
             
             friendAdded = true
+            
+            self.viewModel.fetchFriends()
+        }
+    }
+    
+    func removeFriend(id: String) {
+        if id != currentUser?.uid {
+            let ref = db.collection("users").document(id)
+            
+            ref.updateData([
+                "friends": FieldValue.arrayRemove([currentUser?.uid ?? "0"])
+            ])
+            
+            let userRef = db.collection("users").document(currentUser?.uid ?? "0")
+            
+            userRef.updateData([
+                "friends": FieldValue.arrayRemove([id])
+            ])
             
             self.viewModel.fetchFriends()
         }
