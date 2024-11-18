@@ -17,11 +17,9 @@ class DataManager: ObservableObject {
     
     @Published var posts: [Posts] = []
     
-    @Published var users = [Users]()
-    
     public var friends = [String]()
     
-    public var friendsDictionary = [String: String]()
+    @Published var friendsDictionary = [String: String]()
     
     @State private var currentUser = Auth.auth().currentUser
     
@@ -30,7 +28,6 @@ class DataManager: ObservableObject {
     init() {
         fetchPrompts()
         fetchPosts()
-        fetchUsers()
         fetchFriends()
     }
     
@@ -55,6 +52,8 @@ class DataManager: ObservableObject {
                             let displayName = nameData?["displayname"] as? String ?? "Unknown"
                             
                             self.friendsDictionary[friend] = displayName
+                            
+                            print("in datamanger friends are ", self.friendsDictionary)
                             
                         } else {
                             print("Document does not exist for friend ID: \(friend)")
@@ -97,24 +96,24 @@ class DataManager: ObservableObject {
                     
     }
     
-    func fetchUsers() {
-        
-        db.collection("users").addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-            
-            self.users = documents.map { (queryDocumentSnapshot) -> Users in
-                let data = queryDocumentSnapshot.data()
-                let name = data["displayname"] as? String ?? ""
-                let id = data["id"] as? String ?? ""
-                let friends = data["friends"] as? [String] ?? [""]
-                
-                return Users(id: id, displayname: name, friends: friends)
-            }
-        }
-    }
+//    func fetchUsers() {
+//        
+//        db.collection("users").addSnapshotListener { (querySnapshot, error) in
+//            guard let documents = querySnapshot?.documents else {
+//                print("No documents")
+//                return
+//            }
+//            
+//            self.users = documents.map { (queryDocumentSnapshot) -> Users in
+//                let data = queryDocumentSnapshot.data()
+//                let name = data["displayname"] as? String ?? ""
+//                let id = data["id"] as? String ?? ""
+//                let friends = data["friends"] as? [String] ?? [""]
+//                
+//                return Users(id: id, displayname: name, friends: friends)
+//            }
+//        }
+//    }
     
     func fetchPosts() {
         

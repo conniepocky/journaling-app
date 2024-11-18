@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct ContentView: View {
     
@@ -20,12 +21,7 @@ struct ContentView: View {
     private var db = Firestore.firestore()
     
     var body: some View {
-        
-        if (registration) {
-            RegisterView()
-        } else if (login) {
-            LoginView()
-        } else if (loggedIn) {
+        if (loggedIn) {
             HomeView()
         } else {
             content
@@ -33,39 +29,41 @@ struct ContentView: View {
     }
     
     var content: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                Text("Welcome.")
-                    .foregroundColor(.accentColor)
-                    .font(.system(size: 50))
-                    .fontWeight(.semibold)
-                
-                Spacer()
-                
-                Button {
-                    registration = true
-                } label: {
-                    Text("Sign Up")
-                        .frame(width: 200, height: 40)
-                        .foregroundColor(.white)
-                        .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-              
-                }
-                
-                Button {
-                    login = true
-                } label: {
-                    Text("Already have an account? Login.")
-                }
-                
-                
-                Spacer()
+        NavigationStack {
+            ZStack {
+                VStack(spacing: 20) {
+                    Text("Welcome.")
+                        .foregroundColor(.accentColor)
+                        .font(.system(size: 50))
+                        .fontWeight(.semibold)
                     
-            }.padding(10)
-        }.onAppear {
-            Auth.auth().addStateDidChangeListener { auth, user in
-                if user != nil {
-                    loggedIn.toggle()
+                    Spacer()
+                    
+                    NavigationLink {
+                        RegisterView()
+                    } label: {
+                        Text("Sign Up")
+                            .frame(width: 200, height: 40)
+                            .foregroundColor(.white)
+                            .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                  
+                    }
+                    
+                    NavigationLink {
+                        LoginView()
+                    } label: {
+                        Text("Already have an account? Login.")
+                    }
+                    
+                    
+                    Spacer()
+                        
+                }.padding(10)
+            }.onAppear {
+                Auth.auth().addStateDidChangeListener { auth, user in
+                    if user != nil {
+                        loggedIn.toggle()
+                    }
                 }
             }
         }

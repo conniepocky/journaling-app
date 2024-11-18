@@ -7,11 +7,14 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct ChangeUserView: View {
     @State private var currentUser = Auth.auth().currentUser
     
     @State private var newDisplayName = ""
+    
+    private var db = Firestore.firestore()
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -44,9 +47,16 @@ struct ChangeUserView: View {
                 print(error as Any)
             }
             
-            print(currentUser?.displayName)
+            let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
+            ref.updateData(["displayname": name]) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            
         } else {
             //name not valid
+            print("invalid new name")
         }
         
         Auth.auth().currentUser?.reload()

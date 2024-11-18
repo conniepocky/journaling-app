@@ -29,8 +29,10 @@ struct MainView: View {
                             .font(.system(.title, design: .serif, weight: .bold))
                             .multilineTextAlignment(.center)
                     }
-                    Text(dataManager.prompts[0].date_time, format: .dateTime.day().month().year())
-                        .font(.subheadline)
+                    if dataManager.prompts.count > 0 {
+                        Text(dataManager.prompts[0].date_time, format: .dateTime.day().month().year())
+                            .font(.subheadline)
+                    } 
 
                 }.padding()
                 
@@ -63,7 +65,9 @@ struct MainView: View {
             }
         }.onAppear {
             dataManager.fetchFriends()
-            print(dataManager.friends)
+            dataManager.fetchPrompts()
+            
+            print(dataManager.prompts)
             
             for post in dataManager.posts {
                 if post.prompt == dataManager.prompts[0].id && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {

@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import CoreImage.CIFilterBuiltins
 import CodeScanner
+import FirebaseFirestore
 
 struct FriendsView: View {
     
@@ -47,33 +48,38 @@ struct FriendsView: View {
             }
             
             Section {
-                List {
-                    ForEach(viewModel.friendsDictionary.keys.sorted(), id: \.self) { friend in
-                        Button {
-                            confirmDelete = true
-                        } label: {
-                            Text(viewModel.friendsDictionary[friend] ?? "Unknown")
-                            
-                        }.alert("Friend Removal", isPresented: $confirmDelete) {
-                            Button("Yes, remove") {
-                                removeFriend(id: friend)
+                if viewModel.friendsDictionary.isEmpty {
+                    List {
+                        Text("No friends to display.")
+                    }
+                } else {
+                    List {
+                        ForEach(viewModel.friendsDictionary.keys.sorted(), id: \.self) { friend in
+                            Button {
+                                confirmDelete = true
+                            } label: {
+                                Text(viewModel.friendsDictionary[friend] ?? "Unknown")
+                            }.alert("Friend Removal", isPresented: $confirmDelete) {
+                                Button("Yes, remove") {
+                                    removeFriend(id: friend)
+                                }
+                                Button("No", role: .cancel) { }
+                            } message: {
+                                Text("Are you sure you wish to remove this friend?")
                             }
-                            Button("No", role: .cancel) { }
-                        } message: {
-                            Text("Are you sure you wish to remove this friend?")
                         }
                     }
                 }
-            }.alert(isPresented: $friendAdded) { () -> Alert in
-                Alert(title: Text("New Friend"), message: Text("Friend successfully added!"), dismissButton: .cancel())
             }
-            
         }.onAppear() {
-            self.viewModel.fetchUsers()
             self.viewModel.fetchFriends()
+            
+            print(viewModel.friendsDictionary)
             
         }.sheet(isPresented: $isShowingScanner) {
             CodeScannerView(codeTypes: [.qr], simulatedData: "Evp4K7uPTTfctcpNITdzVinSUf73", completion: handleScan)
+        }.alert(isPresented: $friendAdded) { () -> Alert in
+            Alert(title: Text("New Friend"), message: Text("Friend successfully added!"), dismissButton: .cancel())
         }
     }
     
@@ -105,8 +111,14 @@ struct FriendsView: View {
     }
     
     func addFriend(id: String) {
-        if id != currentUser?.uid {
-            let ref = db.collection("users").document(id)
+        print(id)
+        
+        let pattern = #"\bOptional\(\"([^\"]*)\"\)"#
+
+        let friendId = id.replacingOccurrences(of: pattern, with: "$1", options: .regularExpression)
+        
+        if friendId != currentUser?.uid {
+            let ref = db.collection("users").document(friendId)
             
             ref.updateData([
                 "friends": FieldValue.arrayUnion([currentUser?.uid ?? "0"])
@@ -115,7 +127,7 @@ struct FriendsView: View {
             let userRef = db.collection("users").document(currentUser?.uid ?? "0")
             
             userRef.updateData([
-                "friends": FieldValue.arrayUnion([id])
+                "friends": FieldValue.arrayUnion([friendId])
             ])
             
             friendAdded = true
