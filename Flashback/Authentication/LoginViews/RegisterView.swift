@@ -16,7 +16,6 @@ struct RegisterView: View {
     @State private var loggedIn = false
     
     @State private var invalidUsername = false
-    @State private var emailLinkSent = false
     @State private var errorCreatingAccount = false
     @State private var verificationError = ""
     
@@ -80,8 +79,6 @@ struct RegisterView: View {
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                 }.alert(isPresented: $invalidUsername) {
                     Alert(title: Text("Invalid Display Name"), message: Text("Display name must contain 1-20 characters, no special characters and only letters, numbers and underscores allowed."), dismissButton: .default(Text("Got it!")))
-                }.alert(isPresented: $emailLinkSent) {
-                    Alert(title: Text("Verification Link"), message: Text("Please check your email for an email verification link"), dismissButton: .default(Text("Got it!")))
                 }.alert(isPresented: $errorCreatingAccount, content: {
                     Alert(title: Text("Error"), message: Text(verificationError), dismissButton: .default(Text("Got it!")))
                 })
@@ -134,7 +131,6 @@ struct RegisterView: View {
                 verificationError = error?.localizedDescription ?? "There was an error sending the email verification link."
                 errorCreatingAccount = true
             } else {
-                self.emailLinkSent = true
                 print("sent link!")
             }
         })

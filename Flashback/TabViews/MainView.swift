@@ -33,15 +33,14 @@ struct MainView: View {
                         Text(dataManager.prompts[0].date_time, format: .dateTime.day().month().year())
                             .font(.subheadline)
                     } 
-
-                }.padding()
-                
-                NavigationLink(destination: CreatePostView()) {
-                    Text("Add a reply")
-                        .frame(width: 200, height: 40)
-                        .foregroundColor(.white)
-                        .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     
+                    NavigationLink(destination: CreatePostView()) {
+                        Text("Add a reply")
+                            .frame(width: 200, height: 40)
+                            .foregroundColor(.white)
+                            .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                    }.padding()
+
                 }.padding()
                 
                 Divider()
@@ -66,8 +65,6 @@ struct MainView: View {
         }.onAppear {
             dataManager.fetchFriends()
             dataManager.fetchPrompts()
-            
-            print(dataManager.prompts)
             
             for post in dataManager.posts {
                 if post.prompt == dataManager.prompts[0].id && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
