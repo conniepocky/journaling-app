@@ -15,6 +15,7 @@ An unexpected adventure
 A song that brings back memories
 A road trip I’ll never forget
 One of the funniest moments with friends
+Pink
 A spontaneous night out
 My best memory of a holiday celebration
 A time we all laughed until we cried
@@ -73,7 +74,7 @@ Kaleidoscope
 Paradox
 Riddle
 An event in history I wish I could have witnessed?
-Best pet picture.
+Best pet picture
 A skill I learned from a friend
 A memory involving snow or rain
 The best gift I ever received
@@ -87,6 +88,8 @@ A friend who always makes me laugh
 A favorite photo I took with friends
 The best prank I ever pulled
 A day that felt like pure joy
+Favourite holiday location
+Dream holiday destination?
 The moment I felt proud of someone close to me
 The most beautiful season in my hometown
 A weekend getaway that was perfect
@@ -97,4 +100,5 @@ A place I discovered with friends
 A time I stayed up all night
 Scariest photo in my camera roll
 Funniest photo in my camera roll
-Favourite sunset
+Favourite sunset picture
+Favourite moon picture
