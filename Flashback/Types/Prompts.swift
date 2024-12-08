@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Prompts: Identifiable {
+struct Prompts: Identifiable, Equatable {
     var text: String
     var id: String
     var date_time: Date

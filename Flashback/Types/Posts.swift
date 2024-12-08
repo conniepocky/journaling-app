@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Posts: Identifiable {
+struct Posts: Identifiable, Equatable {
     var id: String
     var prompt: String
     var text: String

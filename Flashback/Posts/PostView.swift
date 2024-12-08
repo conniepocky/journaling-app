@@ -40,7 +40,7 @@ struct PostView: View {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, maxHeight: 300)
                         .cornerRadius(10)
                         .padding(.bottom, 10)
                 }
@@ -61,10 +61,14 @@ struct PostView: View {
                             postRef.updateData([
                                 "likes": FieldValue.arrayUnion([currentUser.uid])
                             ])
+                            
+                            likeCount += 1
                         } else {
                             postRef.updateData([
                                 "likes": FieldValue.arrayRemove([currentUser.uid])
                             ])
+                            
+                            likeCount -= 1
                         }
                         
                         isLiked.toggle()
@@ -83,8 +87,7 @@ struct PostView: View {
             }
 
             Divider()
-        }
-        .onAppear {
+        }.onAppear {
             if post.image {
                 imageLoader.loadImage(postID: post.id)
             }

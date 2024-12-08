@@ -73,9 +73,6 @@ struct FriendsView: View {
             }
         }.onAppear() {
             self.viewModel.fetchFriends()
-            
-            print(viewModel.friendsDictionary)
-            
         }.sheet(isPresented: $isShowingScanner) {
             CodeScannerView(codeTypes: [.qr], simulatedData: "Evp4K7uPTTfctcpNITdzVinSUf73", completion: handleScan)
         }.alert(isPresented: $friendAdded) { () -> Alert in
@@ -89,7 +86,6 @@ struct FriendsView: View {
         switch result {
         case .success(let result):
             let details = result.string
-//            guard details.count == 1 else { return }
             
             addFriend(id: details)
             
@@ -149,6 +145,8 @@ struct FriendsView: View {
             userRef.updateData([
                 "friends": FieldValue.arrayRemove([id])
             ])
+            
+            self.viewModel.friendsDictionary.removeAll()
             
             self.viewModel.fetchFriends()
         }

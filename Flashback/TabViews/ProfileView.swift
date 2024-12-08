@@ -35,7 +35,7 @@ struct ProfileView: View {
             
             Section {
                 
-                ShareLink(item: "Download Flashback app") {
+                ShareLink(item: "Download Past & Present app!") {
                     Label("Share this app with friends!", systemImage: "square.and.arrow.up")
                 }
                 
@@ -59,24 +59,3 @@ struct ProfileView_Previews: PreviewProvider {
         ProfileView()
     }
 }
-
-
-//                VStack {
-//                    HStack {
-//                        Text("Profile")
-//                            .font(.largeTitle.bold())
-//
-//                        Spacer()
-//
-//                        NavigationLink {
-//                            SettingsView()
-//                        } label: {
-//                            Image(systemName: "pencil.circle.fill")
-//                                .font(.largeTitle)
-//                                .foregroundColor(.accentColor)
-//                        }
-//                    }.padding()
-//
-//                    Divider()
-//                }
-//                .padding()

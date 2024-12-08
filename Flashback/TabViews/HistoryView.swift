@@ -50,34 +50,6 @@ struct HistoryView: View {
                     }
                 }
             }.navigationTitle("History")
-
-            
-//                Section {
-//                    VStack(alignment: .leading) {
-//                        ForEach(dataManager.prompts) { prompt in
-//                            NavigationLink {
-//                                PastPrompt(prompt: prompt, friendsPosts: friendsPosts)
-//                                    .onAppear {
-//                                        self.friendsPosts = []
-//
-//                                        for post in dataManager.posts {
-//                                            if post.prompt == prompt.id && (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
-//                                                if !self.friendsPosts.contains(where: {$0.id == post.id}) {
-//                                                    self.friendsPosts.append(post)
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                            } label: {
-//                                Text(prompt.date_time, format: .dateTime.day().month().year())
-//                                    .font(.title3)
-//                                    .foregroundColor(.secondary)
-//
-//                            }
-//                            Divider()
-//                        }
-//                    }.padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
-//                }
         }.onAppear {
             dataManager.fetchFriends()
             
@@ -90,7 +62,7 @@ struct HistoryView: View {
 
         for post in dataManager.posts {
             if post.prompt == prompt.id &&
-                (post.author_id == currentUser.uid || dataManager.friends.contains(post.author_id)) {
+                (post.author_id == currentUser.uid || dataManager.friendsDictionary.keys.contains(post.author_id)) {
                 if !friendsPosts.contains(where: { $0.id == post.id }) {
                     friendsPosts.append(post)
                 }

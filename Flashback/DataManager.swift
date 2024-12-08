@@ -33,8 +33,6 @@ class DataManager: ObservableObject {
     
     func fetchFriends() {
         
-        friendsDictionary.removeAll()
-        
         let docRef = db.collection("users").document(currentUser?.uid ?? "0")
         
         docRef.getDocument { (document, error) in
@@ -53,7 +51,7 @@ class DataManager: ObservableObject {
                             
                             self.friendsDictionary[friend] = displayName
                             
-                            print("in datamanger friends are ", self.friendsDictionary)
+                            print("fetched friends")
                             
                         } else {
                             print("Document does not exist for friend ID: \(friend)")
@@ -87,7 +85,7 @@ class DataManager: ObservableObject {
                 
                 let id = queryDocumentSnapshot.documentID
                 
-                print(text)
+                print("fetched prompts")
 
                 return Prompts(text: text, id: id, date_time: date_time)
             }
@@ -95,25 +93,6 @@ class DataManager: ObservableObject {
         
                     
     }
-    
-//    func fetchUsers() {
-//        
-//        db.collection("users").addSnapshotListener { (querySnapshot, error) in
-//            guard let documents = querySnapshot?.documents else {
-//                print("No documents")
-//                return
-//            }
-//            
-//            self.users = documents.map { (queryDocumentSnapshot) -> Users in
-//                let data = queryDocumentSnapshot.data()
-//                let name = data["displayname"] as? String ?? ""
-//                let id = data["id"] as? String ?? ""
-//                let friends = data["friends"] as? [String] ?? [""]
-//                
-//                return Users(id: id, displayname: name, friends: friends)
-//            }
-//        }
-//    }
     
     func fetchPosts() {
         
@@ -134,8 +113,10 @@ class DataManager: ObservableObject {
                 let image = data["image"] as? Bool ?? false
                 let date_time = data["date_time"] as? String ?? "Unknown date"
                 let likes = data["likes"] as? [String] ?? []
+                  
+                print("fetched postsfe")
 
-                  return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image, likes: likes)
+                return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image, likes: likes)
             }
         }
     }

@@ -62,7 +62,7 @@ struct CreatePostView: View {
         
         Button {
             if !text.isEmpty {
-                dataManager.addPost(text: text, data: data, selectedImg: selectedItem.isEmpty)
+                dataManager.addPost(text: text, data: data, selectedImg: !selectedItem.isEmpty)
                 presentationMode.wrappedValue.dismiss()
             }
         } label: {
@@ -71,7 +71,6 @@ struct CreatePostView: View {
                 .foregroundColor(.white)
                 .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
         }
-        
         
         Spacer()
     }
