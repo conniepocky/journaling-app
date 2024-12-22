@@ -13,10 +13,14 @@ struct ProfileView: View {
     
     @State private var currentUser = Auth.auth().currentUser
     
+    @State public var displayName = String()
+    
+    private var db = Firestore.firestore()
+    
     var body: some View {
         NavigationStack {
             VStack() {
-                Text(currentUser?.displayName ?? "")
+                Text(displayName)
                     .font(.title)
                     .padding()
                 
@@ -50,6 +54,24 @@ struct ProfileView: View {
             Auth.auth().currentUser?.getIDTokenForcingRefresh(true)
             Auth.auth().currentUser?.reload()
             
+            fetchFirestoreDisplayName()
+        }
+    }
+    
+    func fetchFirestoreDisplayName() {
+        let docRef = db.collection("users").document(currentUser?.uid ?? "0")
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let docData = document.data()
+                
+                let name = (docData?["displayname"] as? String)
+                
+                self.displayName = name ?? ""
+                
+            } else {
+                print("Document does not exist for the current user.")
+            }
         }
     }
 }

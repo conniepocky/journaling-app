@@ -84,8 +84,6 @@ class DataManager: ObservableObject {
                 let date_time = dt?.dateValue() ?? Date.now
                 
                 let id = queryDocumentSnapshot.documentID
-                
-                print("fetched prompts")
 
                 return Prompts(text: text, id: id, date_time: date_time)
             }
@@ -113,8 +111,6 @@ class DataManager: ObservableObject {
                 let image = data["image"] as? Bool ?? false
                 let date_time = data["date_time"] as? String ?? "Unknown date"
                 let likes = data["likes"] as? [String] ?? []
-                  
-                print("fetched postsfe")
 
                 return Posts(id: id, prompt: prompt, text: text, author: author, author_id: author_id, date_time: date_time, image: image, likes: likes)
             }

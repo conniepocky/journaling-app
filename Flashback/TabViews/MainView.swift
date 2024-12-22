@@ -17,7 +17,7 @@ struct MainView: View {
     @EnvironmentObject var dataManager: DataManager
     var currentUser = Auth.auth().currentUser!
     
-    @State private var friendsPosts = [Posts]()
+    @State var friendsPosts = [Posts]()
     
     var body: some View {
         NavigationStack {
@@ -82,13 +82,11 @@ struct MainView: View {
     }
 
     private func filterPosts() {
+        friendsPosts = []
         for post in dataManager.posts {
-            print("post is", post)
-            print(dataManager.friendsDictionary)
             if post.prompt == dataManager.prompts[0].id && (post.author_id == currentUser.uid || dataManager.friendsDictionary.keys.contains(post.author_id)) {
-                if !self.friendsPosts.contains(where: {$0.id == post.id}) {
-                    print(post.text)
-                    self.friendsPosts.append(post)
+                if !friendsPosts.contains(where: {$0.id == post.id}) {
+                    friendsPosts.append(post)
                 }
             }
         }

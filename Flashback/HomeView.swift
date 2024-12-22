@@ -12,6 +12,8 @@ struct HomeView: View {
     
     @State private var loggedIn = true
     
+    @EnvironmentObject var dataManager: DataManager
+    
     var body: some View {
         
         if (loggedIn) {

@@ -54,6 +54,8 @@ struct ChangeUserView: View {
                 }
             }
             
+            print("changes display name")
+            
         } else {
             //name not valid
             print("invalid new name")

@@ -41,7 +41,7 @@ struct RegisterView: View {
                 
                 Spacer()
                 
-                TextField("Username", text: $username)
+                TextField("Display Name", text: $username)
                     .padding(6.0)
                     .background(RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                                   .stroke(.gray, lineWidth: 1.0))
@@ -77,33 +77,27 @@ struct RegisterView: View {
                         .frame(width: 200, height: 40)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-                }.alert(isPresented: $invalidUsername) {
-                    Alert(title: Text("Invalid Display Name"), message: Text("Display name must contain 1-20 characters, no special characters and only letters, numbers and underscores allowed."), dismissButton: .default(Text("Got it!")))
-                }.alert(isPresented: $errorCreatingAccount, content: {
-                    Alert(title: Text("Error"), message: Text(verificationError), dismissButton: .default(Text("Got it!")))
-                })
+                }
                 
                 Spacer()
+                    .alert(isPresented: $invalidUsername) {
+                        Alert(title: Text("Invalid Display Name"), message: Text("Display name must contain 1-20 characters, with no special characters or numbers."), dismissButton: .default(Text("Got it!")))
+                    }
+                
+                Text("")
+                    .alert(isPresented: $errorCreatingAccount) {
+                        Alert(title: Text("Error"), message: Text(verificationError), dismissButton: .default(Text("Got it!")))
+                    }
                 
             }.padding(10)
             
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
                 if user != nil {
-                    
                     let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                     changeRequest?.displayName = username
                     changeRequest?.commitChanges { error in
                         print(error?.localizedDescription as Any)
-                    }
-                    
-                    let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
-                    ref.setData(["displayname": username,
-                                 "friends": [String](),
-                                 "id": Auth.auth().currentUser?.uid ?? "0"]) { error in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
                     }
                     
                     loggedIn.toggle()
@@ -119,6 +113,17 @@ struct RegisterView: View {
                 verificationError = error?.localizedDescription ?? "There was an error creating your account. Please try again with a different email."
                 errorCreatingAccount = true
             } else {
+                print("user name is" ,username)
+                
+                let ref = db.collection("users").document(Auth.auth().currentUser?.uid ?? "0")
+                ref.setData(["displayname": username,
+                             "friends": [String](),
+                             "id": Auth.auth().currentUser?.uid ?? "0"]) { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }
+                
                 sendEmailLink()
             }
         }
@@ -126,7 +131,6 @@ struct RegisterView: View {
     
     func sendEmailLink() {
         Auth.auth().currentUser?.sendEmailVerification(completion: { (error) in
-            // Notify the user that the mail has sent or couldn't because of an error.
             if error != nil {
                 verificationError = error?.localizedDescription ?? "There was an error sending the email verification link."
                 errorCreatingAccount = true

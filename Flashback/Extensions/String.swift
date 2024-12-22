@@ -26,7 +26,7 @@ extension String {
     }
     
     var isValidName: Bool {
-       let RegEx = "\\w{1,20}"
+       let RegEx = "^[a-zA-Z !?]{1,20}$"
        let Test = NSPredicate(format:"SELF MATCHES %@", RegEx)
        return Test.evaluate(with: self)
     }

@@ -17,6 +17,8 @@ struct LoginView: View {
     @State private var loggedIn = false
     
     @State private var resettingPasswordAlert = false
+    @State private var errorAlert = false
+    @State private var loginError = ""
     @State private var emailEmptyPassResetAlert = false
     
     private var db = Firestore.firestore()
@@ -62,6 +64,8 @@ struct LoginView: View {
                         .frame(width: 200, height: 40)
                         .foregroundColor(.white)
                         .background(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                }.alert(isPresented: $errorAlert) {
+                    Alert(title: Text("Error"), message: Text(loginError), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Button {
@@ -75,13 +79,17 @@ struct LoginView: View {
                     }
                 } label: {
                     Text("Forgot your password?")
-                }.alert(isPresented: $emailEmptyPassResetAlert) {
-                    Alert(title: Text("Email not filled in"), message: Text("Please enter in your email above so we can send an email password resent link."), dismissButton: .default(Text("Got it!")))
-                }.alert(isPresented: $resettingPasswordAlert) {
-                    Alert(title: Text("Password Reset Email"), message: Text("Your email password reset link has been sent."), dismissButton: .default(Text("Got it!")))
+                }
+                    
+                Text("")
+                    .alert(isPresented: $resettingPasswordAlert) {
+                        Alert(title: Text("Password Reset Email"), message: Text("Your email password reset link has been sent."), dismissButton: .default(Text("Got it!")))
                 }
                 
                 Spacer()
+                    .alert(isPresented: $emailEmptyPassResetAlert) {
+                        Alert(title: Text("Email not filled in"), message: Text("Please enter in your email above so we can send an email password resent link."), dismissButton: .default(Text("Got it!")))
+                    }
                 
             }.padding(10)
             
@@ -98,6 +106,8 @@ struct LoginView: View {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if error != nil {
                 print(error!.localizedDescription)
+                errorAlert = true
+                loginError = error!.localizedDescription
             }
         }
     }
