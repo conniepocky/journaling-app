@@ -23,6 +23,7 @@
 		BC2965E02CBA70F2007EA31B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2965DF2CBA70F2007EA31B /* RegisterView.swift */; };
 		BC2965E22CBA7100007EA31B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2965E12CBA7100007EA31B /* LoginView.swift */; };
 		BC2965E42CBBF4AF007EA31B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BC2965E32CBBF4AF007EA31B /* FirebaseStorage */; };
+		BC2A6C442D1C4CDE00C50CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC2A6C412D1C49BA00C50CC6 /* Assets.xcassets */; };
 		BC92B11C2CBC0EC100C7AC6D /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92B11B2CBC0EC100C7AC6D /* ImageLoader.swift */; };
 		BC92B11F2CBC2EB600C7AC6D /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92B11E2CBC2EB600C7AC6D /* PostView.swift */; };
 		BCA860732A7A7EF900515B09 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA860722A7A7EF900515B09 /* SettingsView.swift */; };
@@ -273,6 +274,7 @@
 			files = (
 				BC0C6B4D2A6FDC500029782B /* Preview Assets.xcassets in Resources */,
 				BC28AA7D2CF3ADE000FC0B0B /* SplashScreen.storyboard in Resources */,
+				BC2A6C442D1C4CDE00C50CC6 /* Assets.xcassets in Resources */,
 				BC0C6B612A755A3D0029782B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +433,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Flashback/Preview Content\"";
@@ -468,7 +470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Flashback/Preview Content\"";
