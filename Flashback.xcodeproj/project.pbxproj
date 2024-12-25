@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		BC0C6B462A6FDC500029782B /* FlashbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C6B452A6FDC500029782B /* FlashbackApp.swift */; };
 		BC0C6B482A6FDC500029782B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C6B472A6FDC500029782B /* ContentView.swift */; };
-		BC0C6B4A2A6FDC500029782B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC0C6B492A6FDC500029782B /* Assets.xcassets */; };
 		BC0C6B4D2A6FDC500029782B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC0C6B4C2A6FDC500029782B /* Preview Assets.xcassets */; };
 		BC0C6B542A6FDFFA0029782B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C6B532A6FDFFA0029782B /* HomeView.swift */; };
 		BC0C6B592A7559B40029782B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BC0C6B582A7559B40029782B /* FirebaseAuth */; };
@@ -45,7 +44,6 @@
 		BC0C6B422A6FDC500029782B /* Flashback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0C6B452A6FDC500029782B /* FlashbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashbackApp.swift; sourceTree = "<group>"; };
 		BC0C6B472A6FDC500029782B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		BC0C6B492A6FDC500029782B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC0C6B4C2A6FDC500029782B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BC0C6B532A6FDFFA0029782B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BC0C6B602A755A3D0029782B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -55,6 +53,7 @@
 		BC28AA7E2CF3AE7400FC0B0B /* PastPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPrompt.swift; sourceTree = "<group>"; };
 		BC2965DF2CBA70F2007EA31B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		BC2965E12CBA7100007EA31B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BC2A6C412D1C49BA00C50CC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC92B11B2CBC0EC100C7AC6D /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		BC92B11E2CBC2EB600C7AC6D /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		BCA860722A7A7EF900515B09 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -115,10 +114,10 @@
 				BCA860842A813FC500515B09 /* Types */,
 				BCA8607B2A81245B00515B09 /* Extensions */,
 				BCA860822A813F1B00515B09 /* DataManager.swift */,
-				BC0C6B492A6FDC500029782B /* Assets.xcassets */,
 				BC0C6B602A755A3D0029782B /* GoogleService-Info.plist */,
 				BC0C6B4B2A6FDC500029782B /* Preview Content */,
 				BC28AA7C2CF3ADE000FC0B0B /* SplashScreen.storyboard */,
+				BC2A6C412D1C49BA00C50CC6 /* Assets.xcassets */,
 			);
 			path = Flashback;
 			sourceTree = "<group>";
@@ -274,7 +273,6 @@
 			files = (
 				BC0C6B4D2A6FDC500029782B /* Preview Assets.xcassets in Resources */,
 				BC28AA7D2CF3ADE000FC0B0B /* SplashScreen.storyboard in Resources */,
-				BC0C6B4A2A6FDC500029782B /* Assets.xcassets in Resources */,
 				BC0C6B612A755A3D0029782B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
